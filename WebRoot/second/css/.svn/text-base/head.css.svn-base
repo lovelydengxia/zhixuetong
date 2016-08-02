@@ -1,0 +1,48 @@
+.head{
+    background: #1E1B29;
+    color: #f1f1f1;
+    font-size: 14px;
+    letter-spacing: 1px;
+}
+.top-child{
+    width: 1100px;
+    margin: auto;
+}
+.top{
+    line-height: 30px;
+    border-bottom: 1px solid #3B344B;
+}
+.nav{
+    width: 1010px;
+    margin: auto;
+}
+.nav .left a{
+    color: #B5B5B5;
+    text-align: center;
+    display: inline-block;
+    font-size: 18px;
+    width: 160px;
+    height: 120px;
+    line-height: 120px;
+    margin: 10px 25px;
+    cursor: pointer;
+}
+.nav .nav_act a{
+    color: #F7F7F7;
+    font-size: 20px;
+}
+.nav .left a:hover{
+    color: #F7F7F7;
+    text-decoration: none;
+}
+.nav .user_head{
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    overflow: hidden;
+}
+.head_tit{
+    font-size: 24px;
+    line-height: 80px;
+    border-bottom: 1px solid #3B344B;
+}

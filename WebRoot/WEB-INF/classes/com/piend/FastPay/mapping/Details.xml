@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.piend.FastPay.dao.DetailsDao">
+	<!-- 添加details并返回id -->
+	<insert id="insertExcel" parameterType="com.piend.FastPay.bean.Details" useGeneratedKeys="true" keyProperty="achievementID">
+		insert into ltg_score_details (testID,xh,studentName,score,ranking,subjectID,testTypeID,classID,schoolDistrictID,testTime) values (#{testID},#{xh},#{studentName},#{score},#{ranking},#{subjectID},#{testTypeID},#{classID},#{schoolDistrictID},#{testTime}) 
+	</insert>
+	<!-- 根据name查询details -->
+	<select id="getByName" parameterType="String" resultType="com.piend.FastPay.bean.Details">
+		select * from ltg_score_details where studentName = #{studentName}
+	</select>
+	<!-- 根据id查询details -->
+	<select id="getByAchievementID" parameterType="int" resultType="com.piend.FastPay.bean.Details">
+		select * from ltg_score_details where achievementID = #{achievementID} 
+	</select>	
+	<!-- 修改details -->
+	<update id="updateDetails" parameterType="com.piend.FastPay.bean.Details">
+		update ltg_score_details set xh=#{xh},studentName=#{studentName},score=#{score},ranking=#{ranking} where achievementID = #{achievementID} 
+	</update>
+	<!-- 根据id修改details -->
+	<update id="updateDetailsByAchievementID" parameterType="com.piend.FastPay.bean.Details">
+		update ltg_score_details set xh=#{xh},studentName=#{studentName},score=#{score},ranking=#{ranking} where achievementID = #{achievementID} 
+	</update>
+	<!-- 根据id删除details -->
+	<delete id="deleteDetailsByAchievementID" parameterType="int">
+		delete from ltg_score_details where achievementID = #{achievementID} 
+	</delete>
+	<!-- 条件查询 -->
+	<select id="findGradeDetailsByGradeConditions" parameterType="com.piend.FastPay.vo.GradeCondition" resultType="com.piend.FastPay.vo.GradeCondition">
+		SELECT d.*,g.*,d.achievementID,d.ranking,d.xh,d.studentName,d.score,g.subjectName,g.schoolDistrictName,g.className,g.testName,g.testType,g.testTime FROM ltg_score_details d LEFT JOIN ltg_score_grade g ON g.testID = d.testID AND g.subjectID = d.subjectID AND g.schoolDistrictID = d.schoolDistrictID AND g.classID = d.classID AND g.testTime = d.testTime AND g.testTypeID = d.testTypeID WHERE g.schoolDistrictName IS NOT NULL AND g.className IS NOT NULL AND g.testType IS NOT NULL  
+		<if test="schoolDistrictID != null and schoolDistrictID != '' ">
+				and g.schoolDistrictID = #{schoolDistrictID} 
+			</if>
+			<if test="classID != null and classID != '' ">
+				and g.classID = #{classID} 
+			</if>
+			<if test="subjectID != null and subjectID != '' ">
+       			and g.subjectID = #{subjectID} 
+     		</if>
+     		<if test="testID != null and testID != '' ">
+     			and g.testID = #{testID} 
+     		</if>
+     		<if test="testTypeID != null and testTypeID != '' ">
+     			and g.testTypeID = #{testTypeID} 
+     		</if>
+     		<if test="xh != null and xh != '' ">
+     			and d.xh = #{xh} 
+     		</if>
+     		<if test="studentName != null and studentName != '' ">
+     			and d.studentName = #{studentName} 
+     		</if>
+     		<if test="score != null and score != '' ">
+     			and d.score = #{score} 
+     		</if>
+     		<if test="beginTestTime != null and beginTestTime != '' ">
+     			and g.testTime BETWEEN #{beginTestTime} 
+     		</if>
+     		<if test="endTestTime != null and endTestTime != '' ">
+     			and #{endTestTime} 
+     		</if>
+	</select>
+	<select id="findDetailsByConditions" parameterType="com.piend.FastPay.bean.Details" resultType="com.piend.FastPay.bean.Details">
+		SELECT * FROM ltg_score_details WHERE 1 = 1 
+		<if test="xh != null and xh != '' ">
+			and xh = #{xh} 
+		</if>
+		<if test="studentName != null and studentName != '' ">
+			AND studentName = #{studentName} 
+		</if>
+		<if test="score != null and score != '' ">
+			AND score = #{score} 
+		</if>
+	</select>
+	<select id="findDetailsByCondition" parameterType="com.piend.FastPay.vo.GradeCondition" resultType="com.piend.FastPay.vo.GradeDetails">
+		SELECT t.id,g.subjectName,d.* FROM ltg_score_grade g LEFT JOIN ltg_jcxx_tclass tc ON tc.cID = g.classID LEFT JOIN ltg_user_teacher t ON t.id = tc.tID LEFT JOIN ltg_score_details d ON d.testID = g.testID AND d.schoolDistrictID = g.schoolDistrictID AND d.subjectID = g.subjectID AND d.testTypeID = g.testTypeID AND d.classID = g.classID AND d.testTime = g.testTime LEFT JOIN ltg_user_account a ON a.id = t.accountID WHERE g.subjectName IS NOT NULL AND g.testType IS NOT NULL AND g.testTime IS NOT NULL AND g.className IS NOT NULL AND g.testID = #{testID} AND a.id = #{accountID} AND g.subjectID = #{subjectID} GROUP BY d.achievementID ORDER BY d.ranking   
+	</select>
+	<select id="findDetailsByParentCondition" parameterType="com.piend.FastPay.vo.GradeCondition" resultType="com.piend.FastPay.vo.GradeDetails">
+		SELECT g.testID,g.testName,g.testTypeID,g.testType,g.subjectID,g.subjectName,d.studentName,d.xh,d.score,d.testTime FROM ltg_score_grade g 
+			LEFT JOIN ltg_user_student s ON s.classID = g.classID  
+			LEFT JOIN ltg_jcxx_pstudent ps ON ps.studentID = s.id  
+			LEFT JOIN ltg_user_parents p ON p.id = ps.parentsID 
+			LEFT JOIN ltg_score_details d ON d.schoolDistrictID = g.schoolDistrictID AND d.subjectID=g.subjectID AND d.classID=g.classID AND d.testID=g.testID AND d.testTime=g.testTime AND d.testTypeID=g.testTypeID 
+		WHERE g.subjectName IS NOT NULL AND g.testType IS NOT NULL AND g.testTime IS NOT NULL AND g.className IS NOT NULL 
+			AND p.accountID = #{accountID} 
+			AND d.testID = #{testID} 
+			AND d.xh = #{xh} 
+		GROUP BY g.subjectID ;
+	</select>
+	<!-- SELECT g.testType,g.subjectName,d.score,d.testTime FROM ltg_score_grade g 
+	LEFT JOIN ltg_user_student s ON s.classID = g.classID  
+	LEFT JOIN ltg_jcxx_pstudent ps ON ps.studentID = s.id  
+	LEFT JOIN ltg_user_parents p ON p.id = ps.parentsID 
+	LEFT JOIN ltg_score_details d ON d.schoolDistrictID = g.schoolDistrictID AND d.subjectID=g.subjectID AND d.classID=g.classID AND d.testID=g.testID AND d.testTime=g.testTime AND d.testTypeID=g.testTypeID 
+WHERE g.subjectName IS NOT NULL AND g.testType IS NOT NULL AND g.testTime IS NOT NULL AND g.className IS NOT NULL 
+	AND p.accountID = 645 
+	AND d.testID = 10 
+	AND d.xh = 84802301 GROUP BY g.subjectID 
+
+	 -->
+	<select id="findScoreGradeCondition" parameterType="com.piend.FastPay.vo.GradeCondition" resultType="com.piend.FastPay.vo.GradeCondition">
+		select g.testName, GROUP_CONCAT(g.subjectName) subjectName, g.testType,GROUP_CONCAT(d.score) score 
+			from ltg_score_grade g 
+			LEFT JOIN ltg_score_details d on d.classID = g.classID 
+			AND d.schoolDistrictID = g.schoolDistrictID AND d.testID = g.testID 
+			AND d.testTime = g.testTime AND d.testTypeID = g.testTypeID and g.subjectID = d.subjectID
+			LEFT JOIN ltg_user_student s ON s.xh = d.xh 
+			LEFT JOIN ltg_jcxx_pstudent ps ON ps.studentID = s.id 
+			LEFT JOIN ltg_user_parents p ON ps.parentsID = p.id 
+			LEFT JOIN ltg_user_account a ON a.id = p.accountID 
+			where g.testTime is not null and g.subjectName is not null AND g.schoolDistrictID IS NOT NULL AND g.classID IS NOT NULL AND g.testTypeID IS NOT NULL 
+ 			and d.xh = #{xh}   
+			AND a.id = #{accountID}  
+			GROUP BY g.testID 
+			order by g.testTime  
+	</select>
+</mapper>

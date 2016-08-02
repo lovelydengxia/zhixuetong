@@ -1,0 +1,215 @@
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%
+String path = request.getContextPath();
+String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+
+%>
+<!DOCTYPE html>
+<html>
+
+	<head>
+	<base href="<%=basePath%>">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>主页</title>
+		<link href="<%=basePath%>css/mui.min.css" rel="stylesheet" />
+		<link href="<%=basePath%>css/basic.css" rel="stylesheet" />
+		<script type="text/javascript" src="<%=basePath%>js/location.js" ></script>
+		<style type="text/css">
+			body,.mui-content {background: #fff;}
+			.mui-content-padded {width: 90%;margin-left: 5%;margin-top: 0px;background: #fff;}
+			.banner {height: 160px;background: url('${img}') no-repeat center;background-size: 100% 100%;}
+			#sliderSegmentedControl{height: 55px;background-color: #fff;}
+			#sliderSegmentedControl a {line-height:55px;}
+			#login-form {margin-top: 25px;width: 90%;left: 5%;}
+			.mui-input-group .mui-input-row {height: 60px;border: 1px solid darkgray;border-radius: 5px;}
+			.mui-input-row label {line-height: 36px;width: 20%;}
+			div#scroll1 {border:none;}
+			#item1mobile {background: #fff;}
+			.mui-input-row label~input {height: 58px;width:80%}
+			.mui-input-group:after,.mui-input-group .mui-input-row:after,.mui-input-group:before {background-color: #fff;}
+			.mui-input-row .mui-input-clear~.mui-icon-clear {top:20px;}
+			.psw .mui-input-clear~.mui-icon-clear {display: none;}
+			.getI {position: absolute; right: 10px;top: 8px;padding: 10px 18px;border-radius: 5px;background: #11C036;color:#fff;cursor: pointer;}
+			#login,#login1{height: 60px;}
+			.link-area {margin-top: 40px;}
+			#forgetPassword {float: right;}
+			.mui-btn-primary { background: #11C036; border: none;}
+			.hide{display: none;}
+			.mui-slider .mui-segmented-control.mui-segmented-control-inverted~.mui-slider-group .mui-slider-item{
+				border: none;
+			}
+			.text-center{text-align: center;padding: 10px 0;}
+		</style>
+	</head>
+<%
+String un="";
+String up="";
+Cookie[] cs=request.getCookies();
+if(cs!=null){
+	for(int i=0;i<cs.length;i++){
+		if("un".equals(cs[i].getName())){  
+        	un = cs[i].getValue() ;  // 接收Cookie信息  
+        }  
+        if("up".equals(cs[i].getName())){  
+        	up = cs[i].getValue() ;    // 接收Cookie信息  
+        }
+	}
+	if(un!=""&&up!=""){
+	%>
+
+	<script type="text/javascript">
+		window.location.href="<%=basePath%>login/cookie.html?un=<%=un%>&up=<%=up%>"
+	</script>
+	<%
+	}
+}
+ %>
+	<body>
+		<div class="mui-content">
+			<!-------顶部图片 --------->
+			<div class="banner"></div>
+			<!--end-->
+			<!--——————tab选项——————-->
+			<div id="slider" class="mui-slider">
+		<!-- 		<div id="sliderSegmentedControl" class="mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
+					<a class="mui-control-item" id="phon-d" href="#item1mobile">
+				手机号登录
+			</a>
+					<a class="mui-control-item" id="acc-d" href="#item2mobile">
+				账号登录
+			</a>
+				</div> -->
+				<div id="sliderProgressBar" class="mui-slider-progress-bar mui-col-xs-6"></div>
+				<div class="mui-slider-group" style="height:195px;">
+					<div id="item1mobile" class="mui-slider-item mui-control-content mui-active">
+						<div id="scroll1" class="mui-scroll-wrapper">
+							<div class="mui-scroll">
+								<form id='login-form' class="mui-input-group">
+									<div class="mui-input-row">
+										<label>账号</label>
+										<input id='account2' type="text" class="mui-input-clear mui-input" placeholder="请输入您在学校登记的手机号" >
+									</div>
+									<div class="mui-input-row psw" style="margin-top: 10px;">
+										<label>密码</label>
+										<input  id='password2' type="password" class="mui-input-clear mui-input" placeholder="请输入密码">
+																				
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				<!-- 	<div id="item2mobile" class="mui-slider-item mui-control-content">
+						<div id="scroll2" class="mui-scroll-wrapper">
+							<div class="mui-scroll">
+								<div class="mui-loading">
+								</div>
+							</div>
+						</div>
+
+					</div> -->
+				</div>
+			</div>
+			<!--end-->
+			 <div class="text-center"><span id="span_error" style="color:red;"></span></div>	
+			<div class="mui-content-padded" id='logindiv'>
+				<button id='login' class="mui-btn hide mui-btn-block mui-btn-primary">手机登录</button>
+				<button id='login1' class="mui-btn  mui-btn-block mui-btn-primary">登录</button>
+				<div class="link-area">
+					<a href="<%=basePath%>register/get1.html" id='reg'>注册账号</a>
+					<a href="<%=basePath%>Account/getresetpwd.html" id='forgetPassword'>忘记密码</a>
+				</div>
+			</div>
+			<div class="mui-content-padded oauth-area">
+			</div>
+		</div>
+		<script src="js/jquery-1.10.1.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript" src="<%=basePath%>js/mui.min.js"></script>
+		<script>
+		/* 	mui.init({
+				swipeBack: false
+			});
+			(function($) {
+				$('.mui-scroll-wrapper').scroll({
+					indicators: true //是否显示滚动条
+				});
+				var html2 = '<form id="login-form" class="mui-input-group"><div class="mui-input-row"><label>账号</label><input id="account1" type="text" class="mui-input-clear mui-input" placeholder="请输入您的账号"></div><div class="mui-input-row psw" style="margin-top: 10px;"><label>密码</label><input style="width: 60%;margin-right: 20%;"  id="password1" type="password" class="mui-input-clear mui-input" placeholder="密码"></div></form>';
+				var item2 = document.getElementById('item2mobile');
+				document.getElementById('slider').addEventListener('slide', function(e) {
+					if (e.detail.slideNumber === 1) {						
+						document.getElementById('login').style.cssText = "display:none";
+						document.getElementById('login1').style.cssText = "display:block";
+						if (item2.querySelector('.mui-loading')) {
+							setTimeout(function() {
+								item2.querySelector('.mui-scroll').innerHTML = html2;
+							}, 500);
+						}
+					} else if (e.detail.slideNumber === 2) {
+						
+						if (item3.querySelector('.mui-loading')) {
+							alert(12)
+							setTimeout(function() {
+								item3.querySelector('.mui-scroll').innerHTML = html3;
+							}, 500);
+						}
+					} else{
+						document.getElementById('login1').style.cssText = "display:none";
+						document.getElementById('login').style.cssText = "display:block";
+					}
+				}); */
+				/*var sliderSegmentedControl = document.getElementById('sliderSegmentedControl');
+				$('.mui-input-group').on('change', 'input', function() {
+					if (this.checked) {
+						sliderSegmentedControl.className = 'mui-slider-indicator mui-segmented-control mui-segmented-control-inverted mui-segmented-control-' + this.value;
+						//force repaint
+						sliderProgressBar.setAttribute('style', sliderProgressBar.getAttribute('style'));
+					}
+				});*/
+		/* 	})(mui); */
+			
+			
+			
+			//获取验证码
+			function phonv(){
+			debugger;
+				var pho = $('#account2').val();
+				$.post('<%=basePath%>login/loginPhoneVlidate.html', { 'pho': pho }, function (text) { 
+					if(text!=''){
+						$("#span_error").text(text);
+					}
+					else{
+						$("#span_error").text('');
+					}
+				
+				});
+			}
+			
+			
+			
+			 //账户登陆
+			 $('#login1').click(function(){				
+				var acc=$('#account2').val();
+				var psd=$('#password2').val();
+				$.post('<%=basePath%>login/login.html',{'xgh':acc,'loginpassword':psd },function (data){
+							if(data.zhtype == '2'){
+	          				window.location.href='<%=basePath%>grade/turn.html';}
+	          				if(data.zhtype == '4'){
+	          				window.location.href='<%=basePath%>parent/get.html';}
+	          				$("#span_error").text(data.err);
+	          			},'json');
+
+			 });
+			 //手机号登陆
+			 $('#login').click(function(){				
+				var acc=$('#account2').val();
+				var psd=$('#password2').val();
+				$.post('<%=path%>/login/phologin.html',{'pho':acc,'code':psd },function (data){
+							if(data.zhtype == '2'){
+	          				window.location.href='<%=basePath%>grade/turn.html';}
+	          				if(data.zhtype == '4'){
+	          				window.location.href='<%=basePath%>parent/get.html';}
+	   	          		    $("#span_error").text(data.err);
+	          			},'json');
+			 });  
+		</script>
+	</body>
+</html>

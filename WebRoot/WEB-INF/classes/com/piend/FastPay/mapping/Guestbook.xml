@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+ <mapper namespace="com.piend.FastPay.dao.GuestbookDao">
+ 	<insert id="addGuest" parameterType="Guestbook">
+ 		insert into ltg_jcxx_guestbook (position,flag,title,content,toobjid,messager,flage,mestime,creattime,creater,creatfrom,edittime,editer,editfrom,version)
+ 		values(#{position},#{flag},#{title},#{content},#{toobjid},#{messager},#{flage},#{mestime},#{creattime},#{creater},#{creatfrom},#{edittime},#{editer},#{editfrom},#{version})
+ 	</insert>
+ 	<select id="getById" parameterType="int" resultType="Guestbook">
+ 		select * from ltg_jcxx_guestbook where id=#{id}
+ 	</select>
+ 	<select id="getbyposition" parameterType="String" resultType="Guestbook">
+ 		SELECT a.* from ltg_jcxx_guestbook a,ltg_jcxx_homework b where a.position=b.ID and b.sfsc=0 and a.position=#{hwid}
+ 	</select>
+ 	<insert id="replay" parameterType="Guestbook">
+ 		insert into ltg_jcxx_guestbook (position,flag,title,content,toobjid,messager,flage,mestime,creattime)
+ 		values(#{position},#{flag},#{title},#{content},#{toobjid},#{messager},#{flage},#{mestime},#{creattime})
+ 	</insert>
+ </mapper>

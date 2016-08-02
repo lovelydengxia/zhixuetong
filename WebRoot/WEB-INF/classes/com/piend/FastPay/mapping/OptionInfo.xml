@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+
+<mapper namespace="com.piend.FastPay.dao.OptionDao">
+
+	<select id="getAll" resultType="OptionInfo" parameterType="String">
+		select * from ltg_code_option where op_type=#{op_key}
+	</select>
+
+	<update id="updateOptionInfo" parameterType="OptionInfo">
+		update
+		ltg_code_option set op_val=#{op_val} where id=#{id}
+	</update>
+	<select id="getById" parameterType="int" resultType="OptionInfo">
+		select *
+		from ltg_code_option where id=#{id}
+	</select>
+	
+	<select id="getByKey" parameterType="String" resultType="OptionInfo">
+		select * from ltg_code_option where op_key=#{key}
+	</select>
+</mapper>

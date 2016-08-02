@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+
+<mapper namespace="com.piend.FastPay.dao.ICollectionDao">
+	
+	<!-- 根据id获取学科 -->
+	<select id="getsubbyid" parameterType="String" resultType="CollectionInfo">
+		select * from ltg_code_collection where gid='Subject' and id = #{id}
+	</select>
+	<!-- 获取所有学科 -->
+	<select id="getsubject" resultType="CollectionInfo">
+		select * from ltg_code_collection where gid='Subject'
+	</select>
+	<!-- 获取所有的学历 -->
+	<select id="getdegree" resultType="CollectionInfo">
+		select * from ltg_code_collection where gid='trainLevel'
+	</select>
+	<!-- 获取所有的亲子关系 -->
+	<select id="getParetnthood" resultType="CollectionInfo">
+		select * from ltg_code_collection where gid='Paretnthood'
+	</select>
+	
+	<insert id="addSave" parameterType="CollectionInfo">
+		insert into ltg_code_collection(gid,gname,id,name)
+		values(#{gid},#{gname},#{id},#{name});
+	</insert>
+	
+	<select id="getByGid" parameterType="String" resultType="CollectionInfo">
+		select * from ltg_code_collection where gid=#{gid};
+	</select>
+	
+	<select id="getByGname" parameterType="String" resultType="CollectionDto">
+	select DISTINCT gid,gname from ltg_code_collection where gname like #{gname};
+	</select>
+	
+	<update id="update" parameterType="CollectionInfo">
+	    update ltg_code_collection set id=#{id},name=#{name} where cid=#{cid};
+	</update>
+	
+	<select id="getAll" resultType="CollectionDto">
+	SELECT DISTINCT gid,gname from ltg_code_collection;
+	</select>
+	
+	<select id="getCid" resultType="CollectionInfo" parameterType="int">
+	select * from ltg_code_collection where cid=#{cid};
+	</select>
+	<select id="getDtoByGid" resultType="CollectionDto" parameterType="String">
+	SELECT DISTINCT gid,gname from ltg_code_collection where gid=#{gid};
+	</select>
+	
+	<select id="getArgus" parameterType="String" resultType="CollectionInfo">
+	      select * from ltg_code_collection where gid=#{gid} 
+	          <if test="id != null and '' != id ">
+	           and id=#{id} </if>
+	          <if test=" name != null and '' != name">
+	           and name=#{name} </if>
+	</select>
+	<!-- 获取所有的培养层次 -->
+	<select id="getPycc" resultType="CollectionInfo">
+		select * from ltg_code_collection where gid='pycc'
+	</select>
+	<!-- 获取所有的专业方向 -->
+	<select id="getZyfx" resultType="CollectionInfo">
+		select * from ltg_code_collection where gid='zyfx'
+	</select>
+	<!-- 获取所有的学制 -->
+	<select id="getXz" resultType="CollectionInfo">
+		select * from ltg_code_collection where gid='xz'
+	</select>
+	<!-- 获取id,gid -->
+	<select id="getJson" resultType="CollectionInfo" parameterType="CollectionInfo">
+	   select * from ltg_code_collection where gid=#{gid} and id=#{id};
+	</select>
+	<!-- 获取name,gid-->
+	<select id="getNameJson" resultType="CollectionInfo" parameterType="CollectionInfo">
+	   select * from ltg_code_collection where gid=#{gid} and name=#{name};
+	</select>
+
+	<select id="getGradeBySubjectName" resultType="com.piend.FastPay.bean.CollectionInfo">
+		select c.cid,c.id,c.name from ltg_code_collection c where c.gid = 'Subject'  
+	</select>
+	<select id="getGradeByTestType" resultType="com.piend.FastPay.bean.CollectionInfo">
+		select c.cid,c.id,c.name from ltg_code_collection c where c.gid = 'TestType'  
+	</select>
+	<select id="getById" parameterType="int" resultType="com.piend.FastPay.bean.CollectionInfo">
+
+		select c.id,c.name from ltg_code_collection c where c.cid = #{id}   
+
+	</select>
+	<select id="getBySubjectId" parameterType="int" resultType="com.piend.FastPay.bean.CollectionInfo">
+		select c.id,c.name from ltg_code_collection c where c.id = #{id}  
+	</select>
+
+	<select id="getByName" parameterType="String" resultType="CollectionInfo">
+		select * from ltg_code_collection where name=#{name};
+	</select>
+	<select id="getGradeBySemesterName" resultType="com.piend.FastPay.bean.CollectionInfo">
+		select c.cid,c.id,c.name from ltg_code_collection c where c.gid = 'chinese_b' 
+	</select>
+	<insert id="insert" parameterType="com.piend.FastPay.bean.CollectionInfo">
+		insert into ltg_code_collection (gid,gname,name) values (#{gid},#{gname},#{name}) 
+	</insert>
+</mapper>

@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/porject/!svn/ver/4020/SSPhone/WebRoot/WEB-INF/jsp/wallet
+END
+wallet.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/porject/!svn/ver/3745/SSPhone/WebRoot/WEB-INF/jsp/wallet/wallet.jsp
+END
+rechange.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/porject/!svn/ver/4020/SSPhone/WebRoot/WEB-INF/jsp/wallet/rechange.jsp
+END
+rechangesuccess.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/porject/!svn/ver/3565/SSPhone/WebRoot/WEB-INF/jsp/wallet/rechangesuccess.jsp
+END
+rechangeFailed.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/porject/!svn/ver/3618/SSPhone/WebRoot/WEB-INF/jsp/wallet/rechangeFailed.jsp
+END

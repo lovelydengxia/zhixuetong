@@ -1,0 +1,68 @@
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%
+String path = request.getContextPath();
+String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+%>
+<%
+Cookie co=new Cookie("up",null);
+co.setMaxAge(0);
+co.setPath("/");
+response.addCookie(co);
+ %>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <base href="<%=basePath%>">
+    <meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>注册成功</title>
+		<script src="<%=basePath%>js/mui.min.js"></script>
+		<link href="<%=basePath%>css/mui.min.css" rel="stylesheet" />
+		<link href="<%=basePath%>css/style.css" rel="stylesheet" />
+		<script type="text/javascript" charset="UTF-8">
+			mui.init();
+			function turn(){
+				window.location.href="<%=basePath%>login/get.html";
+			};
+		</script>
+		<style type="text/css">
+			body {background: #fff;}
+			.role .rolePic img {width: 50px;}
+			.role .roleW a {padding: 6px 10px;border: 2px solid #11C036; border-radius: 30px;}
+			.role {height: 85px;margin-top: 65px;}
+			.rolePic2 {float:right;right: 0px;}
+			.roleW2 {float: right;right: 0px;}
+			.rolePic {padding-top:20px;}
+			.rolePic div {display: inline-block;}
+			.rolePic,.roleW {width: 160px;margin: 0 auto;}
+			.roleW1 {float: left;}
+			.notice {color: #000000;text-align: center;}
+			.role {margin-top: 110px;}
+			.role h4 {width: 70%;margin-left: 15%;margin-top: 60px;font-weight: normal;font-size: 15px;}
+			.bule {color: #11C036;}
+			.mui-input-group .mui-input-row:after,.mui-input-group:after {height:5;border:2px solid #11C036;border-top: none;border-bottom: 3px solid #11C036;}
+			.mui-input-group:after,.mui-input-group:before {display: none;}
+			.mui-input-group .mui-input-row:after {height: 6px;background: #fff;left: 0px;}
+			.mui-input-group .mui-input-row,.mui-content-padded {width: 90%;left: 5%;}
+			.mui-content-padded {position: absolute;bottom: 20px;margin-left: 0px;}
+			.mui-btn-primary {background: #11C036;border: none;}
+			.mui-input-row label {width: 30%;}
+			.mui-input-row label~input {width: 70%;}
+		</style>
+	</head>
+	<body>
+	<!------header------->
+		<header class="mui-bar mui-bar-nav">
+			<a class=" mui-icon " onclick="turn()" href="javascript:void(0)"><img class="back" src="<%=basePath%>img/back.png" /></a>
+			<h1 id="title" class="mui-title">找回密码</h1>
+		</header>
+	<!------note--------->
+		<div class="role note">
+			<h3 class="notice"><img src="<%=basePath%>img/clock.png" />&nbsp;&nbsp;修改密码成功</h3>
+		</div>
+	<!-------sure----->
+		<div class="mui-content-padded">
+				<button id='login' class="mui-btn mui-btn-block mui-btn-primary" onclick="turn()">返回登录</button>
+		</div>
+	</body>
+</html>

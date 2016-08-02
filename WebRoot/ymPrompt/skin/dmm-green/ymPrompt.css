@@ -1,0 +1,98 @@
+﻿/*container*/
+#ym-window{
+	    box-shadow: 0 0 10px #fff;
+	background:#fff;overflow:hidden;
+	font-size:12px;font-family:'宋体'
+}
+
+.ym-tl{padding-left:3px;background:#1E1B29}
+.ym-tr{padding-right:3px;background:#1E1B29;}
+.ym-tc{background:#1E1B29 ;overflow:hidden;height:40px;line-height:40px;}
+.ym-ttc{height:3px}
+.ym-header-text{font-size:14px;font-weight:bold;color:#fff;padding-left:28px;float:left;height:40px;line-height:40px;}
+.ym-header-tools{float:right;margin-top:3px}
+.ym-header-tools strong{display:none}
+
+/*body*/
+.ym-ml{padding-left:3px;}
+.ym-mr{padding-right:3px;}
+.ym-mc{padding:0}
+.ym-body{overflow:auto;padding:0;font-size:12px;color:#0076A9}
+
+/*button*/
+.ym-btn{text-align:center}
+
+/*footer*/
+.ym-bl{padding-left:3px}
+.ym-br{padding-right:3px}
+.ym-bc{height:3px;font-size:3px}
+
+.ymPrompt_alert{
+	padding-left:90px;
+	
+}
+.ymPrompt_succeed{
+	padding-left:90px;
+	
+}
+.ymPrompt_error{
+	padding-left:90px;
+	
+}
+.ymPrompt_confirm{
+	padding-left:90px;
+	
+}
+.ymPrompt_close{
+	cursor:pointer;
+	
+	width:22px;height:22px;
+}
+.ymPrompt_alert .ym-content,.ymPrompt_succeed .ym-content,.ymPrompt_error .ym-content,.ymPrompt_confirm .ym-content{
+	padding:50px 30px 0;
+	font-size: 14px;
+	}
+/*图标公共定义*/
+.ym-header-tools div{
+	cursor:pointer;
+	width:22px;height:22px;float:left;margin:0 0;
+
+}
+.ymPrompt_close{
+	background-position:-66px 0 !important;
+}
+.ymPrompt_max{
+	background-position:0 0 !important;
+}
+.ymPrompt_min{
+	background-position:-44px 0 !important;
+}
+.ymPrompt_normal{
+	background-position:-22px 0 !important;
+}
+/*取消确认按钮样式*/
+input.btnStyle{
+		    display: inline-block;
+    margin-bottom: 0;
+    font-size: 14px;
+    font-weight: normal;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background: #ccc;
+    border: 1px solid transparent;
+    border-radius: 4px;
+	
+	width:80px;height:30px;line-height:30px;
+	font-size:12px;color:#fff;font-weight:bold;border:0;margin:10px 0;
+
+}
+/* #ymPrompt_btn_0{
+	    background: #0096FF;
+}
+ */

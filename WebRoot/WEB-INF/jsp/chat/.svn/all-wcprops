@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/porject/!svn/ver/4647/SSPhone/WebRoot/WEB-INF/jsp/chat
+END
+addGroup.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/porject/!svn/ver/4205/SSPhone/WebRoot/WEB-INF/jsp/chat/addGroup.jsp
+END
+list.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/porject/!svn/ver/4647/SSPhone/WebRoot/WEB-INF/jsp/chat/list.jsp
+END
+findFriend.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/porject/!svn/ver/3906/SSPhone/WebRoot/WEB-INF/jsp/chat/findFriend.jsp
+END
+getGroupUserInfo.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/porject/!svn/ver/4312/SSPhone/WebRoot/WEB-INF/jsp/chat/getGroupUserInfo.jsp
+END
+chat.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/porject/!svn/ver/4197/SSPhone/WebRoot/WEB-INF/jsp/chat/chat.jsp
+END
+applyFriendList.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/porject/!svn/ver/4427/SSPhone/WebRoot/WEB-INF/jsp/chat/applyFriendList.jsp
+END
+applyFriend.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/porject/!svn/ver/4538/SSPhone/WebRoot/WEB-INF/jsp/chat/applyFriend.jsp
+END

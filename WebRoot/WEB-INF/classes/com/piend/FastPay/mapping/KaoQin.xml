@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+  <mapper namespace="com.piend.FastPay.dao.KaoqinDao">
+	
+	<insert id="add" parameterType="Kaoqin">
+	    INSERT INTO `ltg_clocking-in` (`xh`, `starttime`, `status`, `memo`, `images`, `sfzjh`, `cardID`, `schoolId`) 
+		VALUES (#{xh},DATE_FORMAT(#{starttime},'%Y-%m-%d %H:%i:%s'),0,#{memo},#{images,jdbcType=BLOB},#{sfzjh},#{cardID},#{schoolId});
+	</insert>
+	
+	<resultMap type="Kaoqin" id="KaoqinMap" >
+		<id column="id" property="id" jdbcType="INTEGER"/>
+		<result column="xh" property="xh" jdbcType="VARCHAR"/>
+		<result column="starttime" property="starttime" jdbcType="TIMESTAMP"/>
+		<result column="starttime" property="time" jdbcType="TIMESTAMP"/>
+		<result column="name" property="name" jdbcType="VARCHAR"/>
+	</resultMap>
+	
+	<!--resultType="Kaoqin"  -->
+	<select id="page" parameterType="map"  resultMap="KaoqinMap" >
+	select * from `ltg_clocking-in` kaoQin LEFT JOIN   ltg_user_student Student  on  kaoQin.xh = Student.xh
+	<where>
+		<if test="ids!=null">
+		 
+		kaoQin.xh in
+		 
+		<foreach collection="ids" item="item"  open="(" separator="," close=")">
+         #{item}
+        </foreach>
+		
+		
+			 
+		</if>
+		
+		and Student.name is not NULL  
+	</where>
+	order by kaoQin.starttime desc
+	</select>
+	<!-- 获取学号 -->
+  <select id="getByXh" parameterType="Teacher" resultType="Student" >
+	 SELECT
+	 student.xh,teacher.gh FROM ltg_jcxx_tclass CLASS
+LEFT JOIN ltg_user_teacher teacher ON
+CLASS.tID = teacher.id 
+LEFT JOIN ltg_user_student student ON 
+CLASS.cid = student.classID WHERE teacher.gh = #{gh}
+	 </select> 
+	<!-- 家长端获取学号 -->
+	 <select id="getParentsByXh" parameterType="Account" resultType="Student" >
+	 SELECT xh FROM ltg_user_student WHERE id in (SELECT
+	DISTINCT(pstudent.studentID) FROM ltg_user_account account
+LEFT JOIN ltg_user_parents parents ON
+parents.accountID = account.id LEFT JOIN
+ltg_jcxx_pstudent pstudent ON
+pstudent.parentsID = parents.id WHERE account.xgh = #{xgh})
+	 </select>
+	 
+	<!-- 考勤详情 -->
+	<select id="getById" parameterType="String" resultType="Kaoqin">
+	 select * from `ltg_clocking-in`  where id = #{id}
+	</select>
+	<!-- json学生信息 -->
+	<resultMap type="StudentClassParentVo" id="studentMap" >
+	    <result column="id" property="id" jdbcType="VARCHAR"/>
+	    <result column="parentsID" property="parentsID" jdbcType="VARCHAR"/>
+		<result column="xh" property="xh" jdbcType="VARCHAR"/>
+		<result column="name" property="name" jdbcType="VARCHAR"/>
+		<result column="sfzjh" property="sfzjh" jdbcType="VARCHAR"/>
+	    <result column="bjmc" property="bjmc" jdbcType="VARCHAR"/>	
+	    <result column="xxdm" property="xxdm" jdbcType="VARCHAR"/>
+	    <result column="xxName" property="xxName" jdbcType="VARCHAR"/>	
+	</resultMap>
+	<select id="pageStudent" parameterType="map" resultMap="studentMap">
+SELECT
+DISTINCT
+    A.id,
+A.sex,
+	xh,
+	name,
+	sfzjh,
+	PS.parentsID,
+	bjmc,
+	xxdm,
+    xxname,
+rict.xqdm,
+rict.xqmc
+FROM
+	ltg_user_student A
+LEFT JOIN ltg_jcxx_class B ON A.classID = B.cid LEFT JOIN ltg_jcxx_school C on 1=1  
+LEFT JOIN ltg_jcxx_schooldistrict rict ON  rict.sid = C.id AND B.xqid = rict.id LEFT JOIN ltg_jcxx_pstudent PS ON A.id
+= PS.studentID
+	     <where>
+		<if test="xh!=null">
+			 xh = #{xh} 
+		</if>
+		<if test="name!=null">
+			and xm = #{xm} 
+		</if>
+		<if test="name!=null">
+			and sfzjh = #{sfzh} 
+		</if>
+	</where>  
+	</select>
+	
+	<resultMap type="Parents" id="parentMap" >
+	    <result column="name" property="name" jdbcType="VARCHAR"/>
+		<result column="phone" property="phone" jdbcType="VARCHAR"/>
+	</resultMap>
+	<select id="pageParents" parameterType="map"   resultMap="parentMap">
+	  SELECT
+     B.name,
+     B.phone
+     FROM
+ ltg_user_parents B
+ <where>
+		<if test="ids!=null">
+			 B.id in
+			  
+		<foreach collection="ids" item="item"  open="(" separator="," close=")">
+         #{item}
+        </foreach>
+		</if>
+		
+		
+	</where>
+	
+		
+	
+	
+	</select>
+	<!--json 考勤信息-->
+	<select id="pageKaoqin" parameterType="map" resultType="Kaoqin">
+	  SELECT
+      B.starttime,
+      B.images
+      FROM
+	ltg_user_student A
+LEFT JOIN `ltg_clocking-in` B ON  A.xh = B.xh
+	  <where>
+		<if test="xh!=null">
+			 B.xh = #{xh} 
+		</if>
+		<if test="getdate!=null">
+		  and DATE_FORMAT(starttime,'%Y-%m-%d') = #{getdate}
+		</if>
+	</where>   
+	order by starttime desc
+	</select>
+	
+
+	
+	
+  </mapper>

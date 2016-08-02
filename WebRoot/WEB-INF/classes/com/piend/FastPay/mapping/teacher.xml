@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.piend.FastPay.dao.TeacherDao">
+	<select id="query" resultType="com.piend.FastPay.bean.Teacher">
+		select * from ltg_user_teacher
+	</select>
+	<insert id="reginsert" parameterType="Teacher">
+		insert into ltg_user_teacher (accountID,phone) values (#{accountid},#{phone})  
+	</insert>
+	<update id="regupdate" parameterType="Teacher">
+		update ltg_user_teacher set name=#{name},gh=#{gh},csrq=#{csrq},college=#{college},major=#{major},degree=#{degree} where accountid=#{accountID}
+	</update>
+	<insert id="insert" parameterType="com.piend.FastPay.bean.Teacher">
+		insert into ltg_user_teacher (accountID,gh,name,csrq,phone,degree,major,college)
+		values( #{accountID},#{gh},#{name},#{csrq},#{phone},#{degree},#{major},#{college}
+		);
+	</insert>
+	<delete id="delete" parameterType="int">
+		delete from ltg_user_teacher where id = #{id};
+	</delete>
+	<update id="update" parameterType="com.piend.FastPay.bean.Teacher">
+		update ltg_user_teacher set 
+			gh=#{gh},name=#{name},
+			sex=#{sex},
+			email=#{email},
+			hyzkm=#{hyzkm},jszcm=#{jszcm},jg=#{jg},
+			zzmm=#{zzmm},phone=#{phone},
+			sfzjh=#{sfzjh},
+			qq=#{qq},rztime=#{rztime},
+			zw=#{zw},mark=#{mark},degree=#{degree}
+		where id=#{id}
+	</update>
+	<update id="update2" parameterType="Teacher">
+	update ltg_user_teacher set account_id=#{account_id} where id=#{id}
+	</update>
+	<select id="getForPage" parameterType="PageModel" resultType="com.piend.FastPay.bean.Teacher">
+		select * from ltg_user_teacher limit #{pageNo},#{pageSize};
+	</select>
+	<select id="getCount" resultType="int">
+		select count(*) from ltg_user_teacher;
+	</select>
+	<select id="getById" parameterType="int" resultType="com.piend.FastPay.bean.Teacher">
+		select t.*,d.bmmc,s.xqmc from ltg_user_teacher t join ltg_jcxx_department d on t.department_id=d.bmid join ltg_jcxx_schooldistrict s on d.xqid = s.id where t.id = #{id} ;
+	</select>
+	<select id="getByGh" parameterType="String" resultType="com.piend.FastPay.bean.Teacher">
+		select * from ltg_user_teacher where gh = #{gh}
+	</select>
+	<select id="getpdtcl" parameterType="int" resultType="Tclass">
+		select * from ltg_jcxx_tclass where tid=#{0} and cid=#{1} and subid=#{2} and status=1
+	</select>
+	<insert id="inserttclass" parameterType="Tclass">
+		insert into ltg_jcxx_tclass(tid,cid,subid,isheadteacher,status) values(#{tID},#{cID},#{sub},#{isheadteacherID},1)
+	</insert>
+	
+	<select id="getbyteaid" parameterType="String" resultType="String">
+		select  DISTINCT cid  from ltg_jcxx_tclass where tid=#{teaid} and status=1
+	</select>
+	<select id="gethwstuinfo" parameterType="String" resultType="java.util.HashMap">
+		SELECT
+			c.id,c.`name`
+		FROM
+			ltg_jcxx_homework a,
+			ltg_relation_stuwork b,
+			ltg_user_student c
+		WHERE
+			a.ID = b.hwid
+		AND a.ID = #{hwid}
+		AND b.stuid = c.id
+		AND c.classID = a.classid
+	</select>
+	<update id="delbang" parameterType="int">
+		update ltg_jcxx_tclass set status=0 where tid=#{0} and cid=#{1} and subid=#{2}
+	</update>
+	
+	<select id="getcidinfo" parameterType="String" resultType="com.piend.FastPay.vo.BangClass">
+		select  s.xxname,ds.xqmc,t.bjmc from ltg_jcxx_school s ,ltg_jcxx_schooldistrict ds, ltg_jcxx_class t where t.cID=#{cid} and t.xqid=ds.id and ds.sid=s.id;
+	</select>
+	<select id="getsubinfo" parameterType="String" resultType="java.util.HashMap">
+	SELECT a.subID, b.name FROM ltg_jcxx_tclass a, ltg_code_collection b WHERE a.tID = #{0} AND a.cID =#{1} and a.`status`=1 AND a.subID = b.cid 
+	</select>
+	<select id="getbyaccountid" parameterType="String" resultType="com.piend.FastPay.bean.Teacher">
+		select * from ltg_user_teacher where accountid=#{accid}
+	</select>
+	<select id="getteabyid" parameterType="String" resultType="Teacher">
+		select * from ltg_user_teacher where id = #{id}
+	</select>
+	<!-- <select id="findTeacherByCondition" parameterType="com.piend.FastPay.bean.Teacher" resultType="com.piend.FastPay.bean.Teacher">
+		select * from ltg_user_teacher 
+			where 1=1
+				<if test="name != null and name != '' " >
+       				and name = #{name}
+     			</if>
+     			<if test="gh != null and gh != ' ' ">
+     				and gh = #{gh}
+     			</if>
+     			<if test="sfzjh != null and sfzjh != ''">
+     				and sfzjh = #{sfzjh}
+     			</if>
+     			<if test="rztime != null ">
+     				and rztime like #{rztime} 
+     			</if>
+	</select> -->
+	<!-- select * from ltg_user_teacher u left join ltg_jcxx_department d on u.department_id = d.bmid left
+		join ltg_jcxx_schooldistrict s on d.xqid = s.id where s.xqmc = '高新校区' 
+		and name = '洋洋' and sfzjh = '510722199001234253' and gh = '84802305' and rztime = '2016-03-03' and d.bmmc = '财务部';
+	-->
+	<select id="findTeacherByCondition" parameterType="com.piend.FastPay.vo.Tcondition" resultType="com.piend.FastPay.vo.Tcondition" >
+		select * from ltg_user_teacher <!-- t 
+			left join ltg_jcxx_department d on t.department_id = d.bmid 
+			left join ltg_jcxx_schooldistrict s on d.xqid = s.id 
+			where 1=1 
+				<if test="xqmc != null and xqmc != '' ">
+					and s.xqmc = #{xqmc} 
+				</if>
+				<if test="bmmc != null and bmmc != ''">
+					and d.bmmc = #{bmmc} 
+				</if>
+				<if test="name != null and name != '' " >
+       				and name = #{name}
+     			</if>
+     			<if test="gh != null and gh != ' ' ">
+     				and gh = #{gh}
+     			</if>
+     			<if test="sfzjh != null and sfzjh != ''">
+     				and sfzjh = #{sfzjh}
+     			</if>
+     			<if test="rztime != null ">
+     				and rztime like #{rztime} 
+     			</if> -->
+	</select>
+	<select id="getAll" resultType="com.piend.FastPay.vo.Tcondition">
+		<!-- select t.id,t.gh,t.name,t.zzmm,t.sex,t.phone,t.email,t.zw,d.bmmc,s.xqmc from ltg_user_teacher t join ltg_jcxx_department d on t.department_id=d.bmid join ltg_jcxx_schooldistrict s on d.xqid = s.id where 1=1 ; -->
+		select * from ltg_user_teacher;
+	</select>
+	<select id="getByAccountID" parameterType="String" resultType="Teacher">
+		select * from ltg_user_teacher where accountID=#{id}
+	</select>
+	<!-- <select id="findTeacherByConditions" parameterType="com.piend.FastPay.vo.Tcondition" resultType="com.piend.FastPay.vo.Tcondition">
+		select t.*,d.bmmc,s.xqmc from ltg_user_teacher t 
+			left join ltg_jcxx_department d on t.department_id = d.bmid 
+			left join ltg_jcxx_schooldistrict s on d.xqid = s.id 
+			where 1=1 
+				<if test="xqmc != null and xqmc != '' ">
+					and s.xqmc = #{xqmc} 
+				</if>
+				<if test="bmmc != null and bmmc != ''">
+					and d.bmmc = #{bmmc} 
+				</if>
+				<if test="name != null and name != '' " >
+       				and name = #{name}
+     			</if>
+     			<if test="gh != null and gh != '' ">
+     				and gh = #{gh}
+     			</if>
+     			<if test="sfzjh != null and sfzjh != '' ">
+     				and sfzjh = #{sfzjh}
+     			</if>
+     			<if test="rztime != null and rztime != '' ">
+     				and rztime = #{rztime} 
+     			</if>
+	</select> -->
+	<!-- <select id="getClassScoreByAccountId" parameterType="com.piend.FastPay.vo.Acondition" resultType="com.piend.FastPay.vo.Acondition">
+		SELECT d.studentName,g.chinese_b,g.testName,g.testType,GROUP_CONCAT(g.subjectName, ':', d.score) seconds FROM ltg_user_student s 
+			LEFT JOIN ltg_score_details d on d.xh = s.xh 
+			LEFT JOIN ltg_score_grade g on g.subjectID = d.subjectID 
+			LEFT JOIN ltg_jcxx_class c on c.cid = s.classID 
+			LEFT JOIN ltg_jcxx_tclass tc on tc.cID = c.cid 
+			LEFT JOIN ltg_user_teacher t on t.id = tc.tID 
+			LEFT JOIN ltg_user_account a on a.id = t.accountID 
+	
+		WHERE a.id = 44#{accountID}   
+			AND g.testName = '2016年周考'#{testName}  
+			AND g.testType = '周考'#{testType}  
+			AND g.chinese_b = '第一学期'#{semester}  
+		GROUP BY d.studentName, g.testName 
+	</select> -->
+	<!-- <select id="getClassScoreByTeacherId" parameterType="com.piend.FastPay.vo.Acondition" resultType="com.piend.FastPay.vo.Acondition">
+		SELECT d.studentName,g.chinese_b,g.testName,g.testType,GROUP_CONCAT(g.subjectName, ':', d.score) seconds FROM ltg_user_student s 
+			LEFT JOIN ltg_score_details d on d.xh = s.xh 
+			LEFT JOIN ltg_score_grade g on g.subjectID = d.subjectID 
+			LEFT JOIN ltg_jcxx_class c on c.cid = s.classID 
+			LEFT JOIN ltg_jcxx_tclass tc on tc.cID = c.cid 
+			LEFT JOIN ltg_user_teacher t on t.id = tc.tID 
+	
+		WHERE t.id = 1#{id}   
+			AND g.testName = '2016年周考'#{testName}  
+			AND g.testType = '周考'#{testType}  
+			AND g.chinese_b = '第一学期'#{semester}  
+		GROUP BY d.studentName, g.testName 
+	</select> -->
+	<!-- <select id="getTeacherByXh" parameterType="String" resultType="com.piend.FastPay.bean.Teacher">
+		SELECT t.accountID,t.name FROM ltg_user_teacher t 
+	LEFT JOIN ltg_jcxx_tclass tc ON tc.tID = t.id 
+	LEFT JOIN ltg_jcxx_class c ON c.cid = tc.cID 
+	LEFT JOIN ltg_ask_leave l ON l.classID = c.cid 
+	LEFT JOIN ltg_user_account a ON t.accountID = a.id 
+WHERE l.xh = #{xh} 
+	AND tc.isheadteacher = 1 
+	AND tc.status = 0 
+GROUP BY t.name;
+	</select> -->
+	<select id="getTeacherByXh" parameterType="String" resultType="com.piend.FastPay.bean.Teacher">
+		SELECT t.accountID,t.name FROM ltg_user_teacher t LEFT JOIN ltg_jcxx_tclass tc ON tc.tID = t.id LEFT JOIN ltg_user_student s ON s.classID = tc.cID  WHERE tc.isheadteacher = 1  AND tc.status = 1  AND t.name IS NOT NULL AND s.xh = #{xh} GROUP BY t.name  
+	</select>
+	<select id="getteaaccidbycla" parameterType="String" resultType="String">
+		SELECT DISTINCT b.accountID from ltg_user_teacher b,ltg_jcxx_tclass c where c.cID=#{id} and c.tID=b.id 
+	</select>
+	<update id="updateUserInfoTeacher" parameterType="com.piend.FastPay.bean.Teacher">
+		update ltg_user_teacher set 
+			name=#{name},
+			sex=#{sex},
+			email=#{email},
+			jg=#{jg},
+			phone=#{phone},
+			qq=#{qq},
+			csrq=#{csrq} 
+		where id=#{id} 
+	</update>
+</mapper>

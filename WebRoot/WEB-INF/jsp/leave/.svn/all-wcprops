@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/porject/!svn/ver/4643/SSPhone/WebRoot/WEB-INF/jsp/leave
+END
+Tleave-details.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/porject/!svn/ver/4458/SSPhone/WebRoot/WEB-INF/jsp/leave/Tleave-details.jsp
+END
+Pleave-add.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/porject/!svn/ver/4643/SSPhone/WebRoot/WEB-INF/jsp/leave/Pleave-add.jsp
+END
+Pleave-details.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/porject/!svn/ver/4458/SSPhone/WebRoot/WEB-INF/jsp/leave/Pleave-details.jsp
+END
+Pleave-success.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/porject/!svn/ver/4458/SSPhone/WebRoot/WEB-INF/jsp/leave/Pleave-success.jsp
+END
+Tleave-no.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/porject/!svn/ver/4458/SSPhone/WebRoot/WEB-INF/jsp/leave/Tleave-no.jsp
+END
+Pleave-list.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/porject/!svn/ver/4458/SSPhone/WebRoot/WEB-INF/jsp/leave/Pleave-list.jsp
+END
+Tleave-list.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/porject/!svn/ver/4458/SSPhone/WebRoot/WEB-INF/jsp/leave/Tleave-list.jsp
+END

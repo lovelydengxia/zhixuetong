@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!-- lyc -->
+<mapper namespace="com.piend.FastPay.dao.NoticeDao">
+	
+	<insert id="addNotice" parameterType="NoticeInfo">
+		insert into ltg_notice_article (nodeid,title,context,author,auditorid,subtime,status,mark)
+		values(#{nodeid},#{title},#{context},#{author},#{auditorid},#{subtime},#{status},#{mark})
+	</insert>
+	
+	<update id="updateNotice" parameterType="NoticeInfo">
+		update ltg_notice_article set nodeid=#{nodeid},title=#{title},context=#{context},author=#{author},auditorid=#{auditorid},status=#{status},mark=#{mark}
+		where id=#{id};
+	</update>
+	
+	<delete id="deleteNotice" parameterType="int">
+		delete from ltg_notice_article where id=#{id}
+	</delete>
+	
+	<select id="getAll" resultType="NoticeInfo">
+		select * from ltg_notice_article where activityStartTime is null and status = 1 ORDER BY subTime desc
+	</select>
+	<select id="queryByCondition" parameterType="String" resultType="NoticeInfo">
+		 select * from ltg_notice_article where title  LIKE CONCAT(CONCAT('%', #{0}), '%') and (subtime between #{1} and #{2});
+	       <!--  <if test="id != null and '' != id ">
+	           and id=#{id} </if>
+	          <if test=" name != null and '' != name">
+	           and name=#{name} </if>  -->
+	</select>
+	<select id="getByid" parameterType="int" resultType="NoticeInfo">
+		select * from ltg_notice_article where id=#{id};
+	</select>
+	<update id="success" parameterType="int">
+		update ltg_notice_article set status=1 where id=#{id};
+	</update>
+</mapper>

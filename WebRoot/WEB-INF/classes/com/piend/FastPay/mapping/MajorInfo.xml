@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+
+
+<mapper namespace="com.piend.FastPay.dao.IMajorDao">
+
+	<!-- 根据专业id获取专业信息 -->
+	<select id="queryMajorById" resultType="MajorInfo"
+		parameterType="int">
+		select * from ltg_jcxx_major where id=#{id}
+	</select>
+	<!-- 获取总记录数 -->
+	<select id="getCount" resultType="int">
+		select count(*) from
+		ltg_jcxx_major
+	</select>
+	<!-- 更新专业信息 -->
+	<update id="updateMajor" parameterType="MajorInfo">
+		update ltg_jcxx_major set
+		yxid=#{yxid},pyccm_cd=#{pycc_cd},pycc=#{pycc},xz_cd=#{xz_cd},zydm=#{zydm},zymc=#{zymc},zyfx=#{zyfx},szxq_flg=#{szxq_flg},zyfzr=#{zyfzr},bz=#{bz},sfsc=#{sfsc}
+		where id=#{id}
+	</update>
+	<!-- 删除专业 -->
+	<update id="deleteMajor" parameterType="String">
+		update ltg_jcxx_major set
+		sfsc=1 where id=#{id}
+	</update>
+	<!-- 新增专业 -->
+	<insert id="addMajor" parameterType="MajorInfo">
+		insert into
+		ltg_jcxx_major(yxid,pyccm_cd,pycc,xz_cd,zydm,zymc,zyfx,szxq_flg,zyfzr,bz,sfsc,xz)
+		values(#{yxid},#{pycc_cd},#{pycc},#{xz_cd},#{zydm},#{zymc},#{zyfx},#{szxq_flg},#{zyfzr},#{bz},#{sfsc},#{xz})
+	</insert>
+	
+	<!-- 查询所有信息 -->
+	<select id="getAll" resultType="MajorInfo">
+		select * from ltg_jcxx_major where sfsc=0
+	</select>
+	<!-- 根据院系id来获取专业 -->
+	<select id="getByAcademyId" parameterType="String" resultType="MajorInfo">
+		select * from ltg_jcxx_major where yxid=#{yxid} and sfsc=0
+	</select>
+	<!-- 根据专业名称获取专业信息 -->
+	<select id="queryByzymc" resultType="MajorInfo" parameterType="String">
+		select * from ltg_jcxx_major where zymc=#{zymc}
+	</select>
+</mapper>

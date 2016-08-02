@@ -1,0 +1,60 @@
+
+.deal_det td{
+    line-height: 42px !important;
+    border-color: #EAEAEA!important;
+}
+.info{
+    background: #F4F5FA;
+}
+.info td{
+    padding: 5px 2px!important;
+}
+.card_info{
+    font-size: 14px;
+    width: 25%;
+    margin: 0 2%;
+}
+.user_info{
+    font-size: 14px;
+    width: 40%;
+}
+.notice{
+    font-size: 14px;
+    width: 25%;
+}
+.notice_info li{
+    padding: 0 5px;
+    line-height: 36px;
+    border-bottom: 1px dashed #ccc;
+
+}
+label{
+    font-weight: 600;
+}
+.user_info table{
+    margin-left: 20px;
+}
+.user_info td{
+    padding: 3px 2px;
+}
+.icon{
+    width: 50px;
+}
+
+.card li{
+    padding: 10px 0;
+}
+.btn-info{
+    background: #00AAEE;
+}
+.btn-info:hover,.btn-info:focus{
+    background: #00B4FA;
+}
+.balance{
+    font-size: 16px;
+    font-weight: 600;
+    color: #e64517;
+}
+.deal_det{
+	min-height: 360px;
+}

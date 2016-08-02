@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.piend.FastPay.dao.ILogDao">
+	<insert id="add" parameterType="LogInfo">
+		INSERT INTO ltg_log_operation(create_time,description,from_model,memo,userid,username,loginip)
+		VALUES(#{create_time},#{description},#{from_model},#{memo},#{userid},#{username},#{loginIP})
+	</insert>
+	<select id="getAll" resultType="LogInfo">
+		SELECT * FROM ltg_log_operation order by log_id DESC;
+	</select>
+</mapper>

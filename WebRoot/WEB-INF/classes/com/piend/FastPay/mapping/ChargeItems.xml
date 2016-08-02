@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="com.piend.FastPay.dao.ChargeItemsDao">
+  
+  <insert id="add" parameterType="ChargeItems">
+  insert into ltg_notice_chargeitems(articleID,itemID,itemName,itemType,fare) values (#{articleID},#{itemID},#{itemName},#{itemType},#{fare});
+  </insert>
+  
+  <delete id="delete" parameterType="String">
+  delete from ltg_notice_chargeitems where articleID=#{articleID};
+  </delete>
+  
+  <update id="update" parameterType="ChargeItems">
+  update ltg_notice_chargeitems set articleID=#{articleID},itemID=#{itemID},itemName=#{itemName},itemType=#{itemType},fare=#{fare} where articleID=#{articleID}
+  </update>
+  
+  <select id="getById" parameterType="String" resultType="ChargeItems">
+  select * from ltg_notice_chargeitems where articleID=#{articleID}
+  </select>
+  
+  <select id="getAll" parameterType="ChargeItems" resultType="ChargeItems">
+  select * from ltg_notice_chargeitems;
+  </select>
+  </mapper>

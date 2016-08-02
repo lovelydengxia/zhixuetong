@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+
+
+<mapper namespace="com.piend.FastPay.dao.IDeparDao">
+
+
+	<select id="getById" resultType="DepartmentInfo" parameterType="String">
+		select * from ltg_jcxx_department where bmid=#{bmid} and sfsc=0
+	</select>
+
+	<select id="getAll" resultType="DepartmentInfo">
+		select * from ltg_jcxx_department where sfsc=0
+	</select>
+
+	<select id="getByschdis" parameterType="String" resultType="DepartmentInfo">
+		select * from ltg_jcxx_department where xqid=#{xqid} and sfsc=0
+	</select>
+
+	<select id="getCount" resultType="int">
+		select count(*) from ltg_jcxx_department and sfsc=0
+	</select>
+
+	<update id="updateDepart" parameterType="DepartmentInfo">
+		update ltg_jcxx_department set
+		xqid=#{xqid},bmdm=#{bmdm},bmmc=#{bmmc},bmfzr=#{bmfzr},lxdh=#{lxdh},czdh=#{czdh},bz=#{bz}
+		where bmid=#{bmid}
+	</update>
+
+	<update id="deleteDepart" parameterType="String">
+		update ltg_jcxx_department set sfsc=1 where bmid=#{bmid}
+	</update>
+
+	<insert id="addDepart" parameterType="DepartmentInfo">
+		insert into ltg_jcxx_department(xqid,bmdm,bmmc,sfsc,cjsj,bmfzr,lxdh,czdh,bz)
+		values(#{xqid},#{bmdm},#{bmmc},0,#{cjsj},#{bmfzr},#{lxdh},#{czdh},#{bz})
+	</insert>
+
+	<select id="queryAll" parameterType="PageModel" resultType="DepartmentInfo">
+		select * from ltg_jcxx_department limit#{pageNo},#{pageSize}
+	</select>
+	
+	<select id="getByDistinctBmmc" resultType="com.piend.FastPay.bean.DepartmentInfo" >
+		select * from ltg_jcxx_department group by bmmc
+	</select>
+	
+	<select id="getByBmmc" parameterType="String" resultType="com.piend.FastPay.bean.DepartmentInfo">
+		select * from ltg_jcxx_department where sfsc = 0 and bmmc = #{bmmc}
+	</select>
+
+</mapper>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.piend.FastPay.dao.TimeTableDao">
+	<insert id="insertExcel" parameterType="com.piend.FastPay.bean.TimeTable">
+		insert into ltg_time_timetable
+		(week,monday,tuesday,wednesday,thursday,friday,saturday,sunday,times)
+		values
+		(#{week},#{monday},#{tuesday},#{wednesday},#{thursday},#{friday},#{saturday},#{sunday},#{times})
+	</insert>
+</mapper>

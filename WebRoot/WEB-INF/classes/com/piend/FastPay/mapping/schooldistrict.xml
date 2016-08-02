@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+
+<mapper namespace="com.piend.FastPay.dao.ISchooldistrictDao">
+
+	<insert id="add" parameterType="Schooldistrict">
+		insert into ltg_jcxx_schooldistrict(sid,xqdm,xqmc,xqcz,xqdh,xqdz,xqfzr,xqyb,sfsc)
+		values(1,#{xqdm},#{xqmc},#{xqcz},#{xqdh},#{xqdz},#{xqfzr},#{xqyb},0);
+	</insert>
+	
+	<update id="update" parameterType="Schooldistrict">
+	update ltg_jcxx_schooldistrict set id=#{id},xqdm=#{xqdm},xqmc=#{xqmc},xqcz=#{xqcz},xqdh=#{xqdh},xqdz=#{xqdz},xqfzr=#{xqfzr},xqyb=#{xqyb}
+	where id=#{id}
+	</update>
+	
+	<update id="delete" parameterType="String">
+	update ltg_jcxx_schooldistrict set sfsc=1 where id=#{id}
+	</update>
+	
+	<select id="getById" parameterType="String" resultType="Schooldistrict">
+	select * from ltg_jcxx_Schooldistrict where id=#{id}
+	</select>
+	
+	<select id="getAll" resultType="Schooldistrict">
+		select * from ltg_jcxx_Schooldistrict where sfsc=0;
+		
+	</select>
+	<select id="getForPage" parameterType="PageModel" resultType="Schooldistrict">
+		select * from ltg_jcxx_Schooldistrict limit #{pageNo},#{pageSize};
+	</select>
+	
+	<select id="getCount" resultType="int">
+		select count(*) from ltg_jcxx_Schooldistrict;
+	</select>
+	<select id="getByXqmc" parameterType="String" resultType="Schooldistrict">
+		select * from ltg_jcxx_Schooldistrict where xqmc = #{xqmc}
+	</select>
+	<select id="getByDistinctXqmc" resultType="com.piend.FastPay.bean.Schooldistrict" >
+		select * from ltg_jcxx_Schooldistrict group by xqmc
+	</select>
+	<select id="getGradeBySchoolDistrictName" resultType="com.piend.FastPay.bean.Schooldistrict">
+		select * from ltg_jcxx_Schooldistrict where sfsc = 0 group by xqmc 
+	</select>
+	
+	<select id="getBySchoolId" resultType="com.piend.FastPay.bean.Schooldistrict" parameterType="int">
+		select * from ltg_jcxx_Schooldistrict where sid=#{sid};
+	</select>
+</mapper>

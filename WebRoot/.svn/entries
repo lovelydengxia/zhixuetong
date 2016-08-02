@@ -1,0 +1,112 @@
+8
+
+dir
+4701
+https://222.19.48.112/svn/porject/SSPhone/WebRoot
+https://222.19.48.112/svn/porject
+
+
+
+2016-06-29T10:19:32.544691Z
+4674
+luojin
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+02d1c2df-0d1f-ad4a-9af5-8b09cb5f3029
+
+META-INF
+dir
+
+WEB-INF
+dir
+
+css
+dir
+
+error.jsp
+file
+
+
+
+
+2016-07-19T06:38:06.000000Z
+db2896d36610db2cd89ade4689b4577c
+2016-06-02T07:45:46.311780Z
+4396
+wangzhiyong
+
+fonts
+dir
+
+ico
+dir
+
+img
+dir
+
+js
+dir
+
+kaoqin
+dir
+
+kindeditor-4.1.10
+dir
+
+kong.jsp
+file
+
+
+
+
+2016-07-19T06:41:10.000000Z
+a9a61daa0563c5c3fb1176d14b6c176d
+2016-06-08T06:29:33.397290Z
+4627
+wangzhiyong
+
+layer
+dir
+
+login.jsp
+file
+
+
+
+
+2016-07-19T06:41:35.000000Z
+706f621987108d749a49f959fae81f4c
+2016-06-08T01:59:50.682939Z
+4597
+wangzhiyong
+
+second
+dir
+
+start.jsp
+file
+
+
+
+
+2016-07-19T06:41:09.000000Z
+c05d25dd902fde702940126da7c3eef4
+2016-05-27T16:23:24.616656Z
+4226
+pengyingzhi
+
+ymPrompt
+dir
+

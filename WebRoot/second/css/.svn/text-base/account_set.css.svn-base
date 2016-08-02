@@ -1,0 +1,70 @@
+.content_child_left li{
+    display: list-item;
+    text-align: -webkit-match-parent;
+    padding: 20px 0;
+    padding-left: 30px;
+
+}
+.content_child_left li .fa{
+    font-size: 30px;
+    width: 30px;
+    text-align: center;
+}
+.content_child_left li .fa-mobile{
+    font-size: 34px;
+}
+.content_child_left li .fa-credit-card{
+    font-size: 20px;
+}
+.content_child_left li a{
+    display: inline-block;
+    color: #858585;
+
+}
+.content_child_left li a:hover{
+    color: #009CFF;
+}
+.hover_no a:hover{
+	cursor:default;
+	color:#858585!important;
+}
+.con_list_act a{
+    color: #009CFF !important;
+}
+.con_list{
+    width: 120px;
+    padding-left: 15px;
+}
+.content_child_left li span{
+    float: left;
+    font-size: 16px;
+    display: inline-block;
+    line-height: 30px;
+    margin: 0 5px;
+}
+.set_limit,.set_pwd,.set_zf_pwd,.card_re,.card_y_re,.phone_re{
+    border: 1px solid #E1E1E1;
+    margin: 20px;
+    height: 480px;
+}
+.hint{
+    height: 40px;
+    line-height: 40px;
+    margin: 0 20px;
+    padding:20px 0;
+    margin-bottom: 30px;
+    padding-left: 10px;
+    font-size: 16px;
+    font-weight: 500;
+    border-bottom: 1px solid #E1E1E1;
+}
+.hint .fa{
+    line-height: 65px;
+    font-size: 30px;
+    color: #009CFF;
+    margin-right: 30px;
+}
+.set_limit td,.set_pwd td,.set_zf_pwd td,.card_re td,.card_y_re td,.phone_re td{
+    font-size: 14px;
+    padding: 15px 5px;
+}

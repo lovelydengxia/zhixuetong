@@ -1,0 +1,91 @@
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%
+String path = request.getContextPath();
+String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+%>
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+		 <base href="<%=basePath%>">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>修改密码</title>
+		<script src="<%=basePath%>js/mui.min.js"></script>
+		<link href="<%=basePath%>css/mui.min.css" rel="stylesheet" />
+		<link href="<%=basePath%>css/style.css" rel="stylesheet" />
+		<link rel="stylesheet" href="<%=basePath%>css/basic.css" />
+		<script type="text/javascript" src="<%=basePath%>js/location.js" ></script>
+		<script type="text/javascript" src="<%=basePath%>js/jquery.mobile.custom.js" ></script>
+		<script type="text/javascript" src="<%=basePath%>js/jquery-1.10.1.min.js" ></script>
+		<script type="text/javascript" charset="UTF-8">
+			mui.init();
+		</script>
+		<style type="text/css">
+			.mui-icon-back:before, .mui-icon-left-nav:before {content: none;}
+			.mui-content-padded {width: 90%;margin-left: 5%;margin-top: 30px;background: #fff;}
+			.mui-btn-primary { background: #11C036; border: none;padding: 8px 0px;}
+		</style>
+	</head>
+	<body>
+	<!------header------->
+		<header class="mui-bar mui-bar-nav">
+			<button class=" mui-icon mui-icon-left-nav mui-pull-left" style="background: none;border:none;" onclick="toset()"><img class="back" src="img/back.png" /></button>
+			<h1 id="title" class="mui-title">修改密码</h1>
+		</header>
+	<!--form-->
+		<div class="resetPSW">
+			<form class="formRP" action="Account/changepwd.html" method="post" id="changepwd">
+				<div class="formList">
+				<label>原密码</label>
+				<input type="password" placeholder="输入原密码" name="old" id="old"/></div>
+				<div class="formList">
+				<label>新密码</label>
+				<input type="password" placeholder="密码由英文和数字组成" name="new1" id="new1"/></div>
+				<div class="formList">
+				<label>确认密码</label>
+				<input type="password" placeholder="确认密码" name="new2" id="new2"/></div>
+				<div><span style="color:red;" id="msg">${msg }</span></div>
+		<div class="mui-content-padded" ">
+				<button class="mui-btn mui-btn-block mui-btn-primary" style="font-size: 15px;" type="button" onclick="check()">确认修改</button>
+		</div>
+			</form>
+		</div>
+	<!--input chengji-->	
+	</body>
+	<script type="text/javascript">
+		var flag = ${user.zhtype};
+		function toset(){
+			if(flag=='2'){
+				window.location.href="<%=basePath%>Account/getsettea.html";
+			}
+			else{
+				window.location.href="<%=basePath%>Account/getsetpar.html";
+			}
+		}
+		
+		function check(){
+			var myreg2=/^[A-Za-z0-9]{6,12}$/;
+			var old = $("#old").val();
+			var pwd = $("#new1").val();
+			var pwd2= $("#new2").val();
+			if(old==""||old==null){
+				$("#msg").text("请输入原密码");
+			}
+			else if(pwd==""||pwd==null){
+				$("#msg").text("请输入新密码");
+			}
+			else if(pwd2==""||pwd2==null){
+				$("#msg").text("请再次输入新密码");
+			}
+			else if(!myreg2.test(pwd)){
+				$("#msg").text("请输入6-12位数字英文密码");
+			}
+			else if(pwd!=pwd2){
+				$("#msg").text("新密码两次输入不同");
+			}
+			else{
+				$("#changepwd").submit();
+			}
+		}
+	</script>
+</html>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.piend.FastPay.dao.LeaveDao">
+	<select id="findAllByAccountID" parameterType="int" resultType="com.piend.FastPay.bean.Leave">
+		SELECT l.xh,l.id,l.studentName,l.applyStatus,l.leaveTime,sfcx,DATE_FORMAT(applyTime,'%Y-%m-%d') AS applyTime FROM ltg_ask_leave l WHERE sfsc = 0 AND l.accountID = #{accountID} GROUP BY l.startTime,l.endTime ORDER BY l.applyTime DESC 
+	</select>
+	<insert id="insert" parameterType="com.piend.FastPay.bean.Leave">
+		insert into ltg_ask_leave ( 
+			teacherName,taccountID,accountID,xh,classID,parentID,className,studentName,parentName,reasons,phone,startTime,endTime,applyTime,checkTime,applyStatus,sfsc,sfcx,leaveTime,leaveStatus ) 
+		values ( 
+			#{teacherName},#{taccountID},#{accountID},#{xh},#{classID},#{parentID},#{className},#{studentName},#{parentName},#{reasons},#{phone},#{startTime},#{endTime},#{applyTime},#{checkTime},#{applyStatus},#{sfsc},#{sfcx},#{leaveTime},#{leaveStatus}
+			) 
+	</insert>
+	<update id="backOut" parameterType="int">
+		update ltg_ask_leave set sfcx= 1 where id = #{id} 
+	</update>
+	<select id="getById" parameterType="int" resultType="com.piend.FastPay.bean.Leave">
+		select * from ltg_ask_leave where sfsc = 0  and id = #{id} 
+	</select>
+	<select id="findAllByTaccountID" parameterType="int" resultType="com.piend.FastPay.bean.Leave">
+		SELECT * FROM ltg_ask_leave WHERE sfsc = 0 AND sfcx = 0 AND taccountID = #{taccountID} ORDER BY applyTime DESC 
+	</select>
+	<update id="disAgree" parameterType="com.piend.FastPay.bean.Leave">
+		update ltg_ask_leave set applyStatus = #{applyStatus},checkTime = #{checkTime},mark = #{mark} where id = #{id} 
+	</update>
+	<update id="agree" parameterType="com.piend.FastPay.bean.Leave">
+		update ltg_ask_leave set applyStatus = #{applyStatus},checkTime = #{checkTime} where id = #{id} 
+	</update>
+	<update id="deleteP" parameterType="int">
+		update ltg_ask_leave set sfsc = 1 where id = #{id} 
+	</update>
+	<update id="againApplication" parameterType="int">
+		update ltg_ask_leave set sfsc = 0,sfcx = 0,applyStatus = 0 where id = #{id} 
+	</update>
+	<select id="getAllCommons" parameterType="com.piend.FastPay.bean.Leave" resultType="com.piend.FastPay.bean.Leave">
+		SELECT l.* FROM ltg_ask_leave l WHERE l.sfsc = 0 AND l.accountID = #{accountID} AND l.classID =#{classID} AND l.className =#{className} AND l.endTime = #{endTime} AND l.leaveStatus =#{leaveStatus} AND l.leaveTime =#{leaveTime} AND l.parentID =#{parentID} AND l.parentName =#{parentName} AND l.phone =#{phone} AND l.reasons =#{reasons} AND l.startTime =#{startTime} AND l.studentName =#{studentName} AND l.xh =#{xh}  
+		
+	</select>
+</mapper>

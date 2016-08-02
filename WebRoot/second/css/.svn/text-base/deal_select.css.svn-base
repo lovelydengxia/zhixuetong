@@ -1,0 +1,41 @@
+.select_cond{
+    font-size: 14px;
+}
+.select_cond li{
+    line-height: 30px;
+    padding: 5px 0;
+}
+.select_cond label{
+    padding: 0 10px;
+    font-weight: 600;
+}
+.cond{
+    font-weight: 500 !important;
+    color: #000;
+    display: inline-block;
+    padding: 4px 10px 3px 0 !important;
+    border-radius: 2px;
+    cursor: pointer;
+    margin: 3px 2px 3px 0;
+    height: 18px;
+    line-height: 18px;
+    text-decoration: none;
+}
+.cond:hover{
+    background: #EBEBEB;
+    text-decoration: none;
+}
+.cond_act,.cond_act:hover{
+    color: #fff;
+    background-color: #999;
+}
+.deal_info{
+    margin: 20px 10px;
+}
+.icon{
+    width: 50px;
+}
+.deal_info td,.deal_info th{
+    line-height: 42px !important;
+    border-color: #EAEAEA!important;
+}

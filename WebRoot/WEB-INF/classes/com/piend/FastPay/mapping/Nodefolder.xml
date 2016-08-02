@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+
+<mapper namespace="com.piend.FastPay.dao.NodefolderDao">
+
+	<!-- 添加栏目 -->
+	<insert id="addNodefolder" parameterType="com.piend.FastPay.bean.Nodefolder">
+		insert into ltg_notice_nodefolder ( name,isDelete,isEdit,isOrder,isDownload,isCheck,sfsc,mark,sid,ispushMessage,isChooseReader,isPay,isSign) 
+		values (#{name},#{isDelete},#{isEdit},#{isOrder},#{isDownload},#{isCheck},#{sfsc},#{mark},#{sid},#{ispushMessage},#{isChooseReader},#{isPay},#{isSign})
+	</insert>
+	
+	<!-- 更新栏目 -->
+	<update id="updateNodefolder" parameterType="com.piend.FastPay.bean.Nodefolder">
+		update ltg_notice_nodefolder set name=#{name},isDelete=#{isDelete},isEdit=#{isEdit},isOrder=#{isOrder},isDownload=#{isDownload},isCheck=#{isCheck},sfsc=#{sfsc},mark=#{mark},sid=#{sid},ispushMessage=#{ispushMessage},isChooseReader=#{isChooseReader},isPay=#{isPay},isSign=#{isSign} 
+		 where id=#{id}
+	</update>
+	<update id="deleteNodefolder" parameterType="Nodefolder">
+		update ltg_notice_nodefolder set sfsc=1
+		 where id=#{id}
+	</update>
+	
+	<!-- 根据id获取栏目 -->
+	<select id="getById" parameterType="int" resultType="Nodefolder">
+		select * from ltg_notice_nodefolder where id=#{id}
+	</select>
+	
+	<!-- 获取全部栏目 -->
+	<select id="getAll" resultType="Nodefolder">
+		select * from ltg_notice_nodefolder where sfsc=0;
+	</select>
+	<select id="getNodeFolerBySid" parameterType="int" resultType="com.piend.FastPay.bean.Nodefolder">
+		select * from ltg_notice_nodefolder where sfsc = 0 and sid = #{sid}
+	</select>
+	<select id="getByDistinctNodeName" resultType="com.piend.FastPay.bean.Nodefolder">
+		select * from ltg_notice_nodefolder where sfsc = 0 group by name 
+	</select>
+	<select id="getNodeFolderByNodeName" parameterType="String" resultType="com.piend.FastPay.bean.Nodefolder">
+		select * from ltg_notice_nodefolder where sfsc = 0 and name = #{name} 
+	</select>
+</mapper>

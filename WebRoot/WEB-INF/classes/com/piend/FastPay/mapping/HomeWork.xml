@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.piend.FastPay.dao.HomeWorkDao">
+	<insert id="addWork" parameterType="HomeWork">
+		insert into ltg_jcxx_homework
+		(publishtea,classid,subid,hwtitle,hwcontent,deadline,creattime,creater,creatfrom,edittime,editer,editfrom,version,sfsc)
+		values(#{publishtea},#{classid},#{subid},#{hwtitle},#{hwcontent},#{deadline},#{creattime},#{creater},#{creatfrom},#{edittime},#{editer},#{editfrom},#{version},0)
+	</insert>
+	<insert id="addWork2" parameterType="StuWork">
+		insert into ltg_relation_stuwork (hwid,stuid,sfsc)
+		values(#{hwid},#{stuid},0)
+	</insert>
+	<select id="getHwid" resultType="String" parameterType="String">
+		select id from ltg_jcxx_homework where hwtitle=#{0} and deadline=#{1} and classid=#{2};
+	</select>
+	<update id="deleteWork" parameterType="int">
+		update ltg_jcxx_homework set sfsc=1 where id=#{id}
+	</update>
+
+	<update id="updateWork" parameterType="HomeWork">
+		update ltg_jcxx_homework set classid=#{classid},subid=#{subid},sfsc=0 where id=#{id}
+	</update>
+
+	<select id="getAll" resultType="HomeWork">
+		select * from ltg_jcxx_homework
+	</select>
+	<select id="getById" parameterType="int" resultType="HomeWork">
+		select * from ltg_jcxx_homework where id=#{id}
+	</select>
+	<select id="getByClassId" parameterType="int" resultType="HomeWork">
+		select * from ltg_jcxx_homework where classid=#{classid}
+	</select>
+	
+	<select id="getSubByTeaId" parameterType="int" resultType="CollectionInfo">
+	select c.`name`,c.cid from ltg_code_collection c where c.cid in(select subid from ltg_jcxx_tclass where tid=#{tid} and status=1);
+	</select>
+	
+	<select id="getClassBySubid" parameterType="int" resultType="ClassInfo">
+		SELECT  c.cid,c.bjmc from ltg_jcxx_class c where c.cid in(select DISTINCT cid from ltg_jcxx_tclass where subid=#{0} and status=1 and tid=#{1})
+	</select>
+	<select id="getStuByClassId" parameterType="int" resultType="Student">
+		select * from ltg_user_student where classid=#{classid}
+	</select>
+	<select id="getWorkByTeacher" parameterType="int" resultType="HomeWork">
+		select * from ltg_jcxx_homework where publishtea=#{publishtea} and sfsc=0
+	</select>
+	<select id="gethwbypar" parameterType="String" resultType="HomeWork">
+		select DISTINCT a.* from ltg_jcxx_homework a,ltg_relation_stuwork b,ltg_jcxx_pstudent c where c.parentsID=#{parid} and c.`status`=1 and c.studentID=b.stuid and b.sfsc=0 and b.hwid=a.ID and a.sfsc=0
+	</select>
+	<select id="getStuByHwid" parameterType="int" resultType="Student">
+		SELECT * from ltg_user_student ss where ss.id in(select  stuid from ltg_relation_stuwork where hwid=#{hwid})
+	</select>
+	<delete id="delete" parameterType="String">
+		delete from ltg_jcxx_homework where id=#{id}
+	</delete>
+	<select id="getstubyhwpar" parameterType="String" resultType="String">
+		SELECT
+			c.`name`
+		FROM
+			ltg_jcxx_pstudent a,
+			ltg_relation_stuwork b,
+			ltg_user_student c
+		WHERE
+			a.parentsID = #{0}
+		AND a.`status` = 1
+		AND b.hwid = #{1}
+		AND b.stuid = a.studentID
+		AND b.stuid = c.id
+	</select>
+</mapper>

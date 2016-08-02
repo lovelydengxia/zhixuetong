@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.piend.FastPay.dao.ArticleDao">
+        <!-- 教师 活动列表 -->
+	<select id="query" resultType="com.piend.FastPay.bean.Article">
+		select * from ltg_notice_article where sfsc = 0 and status = 0 and isSend=0 or isSend=3;
+	</select>
+	<!-- 家长活动列表 -->
+	<select id="queryParents" resultType="Article">
+	   select * from ltg_notice_article where sfsc = 0 and status = 0 and isSend=1 or isSend=3;
+	</select>
+	<insert id="insert" parameterType="com.piend.FastPay.bean.Article"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into ltg_notice_article (nodelID,auditorID,title,context,authorID,subtime,sfsc,mark,isSend,author,startDateTime,endDateTime,cost,total,count,activityStartTime,activityEndTime,Status,activityLeavle,activitySponsor) 
+		values(#{nodelID},#{auditorID},#{title},#{context},#{authorID},#{subtime},#{sfsc},#{mark},#{isSend},#{author},#{startDateTime},#{endDateTime},#{cost},#{total},#{count},#{activityStarTime},#{activityEndTime},#{status},#{activityLeavle},#{activitySponsor});
+	</insert>
+	<delete id="delete" parameterType="int">
+		update ltg_notice_article set sfsc = 1 where id = #{id};
+	</delete>
+	<update id="update" parameterType="com.piend.FastPay.bean.Article">
+		update ltg_notice_article set 
+		nodelID=#{nodelID},auditorID=#{auditorID},title=#{title},context={context},authorID={authorID},subtime=#{subtime},sfsc=#{sfsc},mark=#{mark},isSend=#{isSend},author=#{author},startDateTime=#{startDateTime},endDateTime=#{endDateTime},cost=#{cost},total=#{total},count=#{count},activityStartTime=#{activityStartTime},activityEndTime=#{activityEndTime},status=#{status},activityLeavle=#{activityLeavle},activitySponsor=#{activitySponsor};
+		where id = #{id}
+	</update>
+	<select id="getForPage" parameterType="PageModel" resultType="com.piend.FastPay.bean.Article">
+		select * from ltg_notice_article limit #{pageNo},#{pageSize};
+	</select>
+	<select id="getCount" resultType="int">
+		select count(*) from ltg_notice_article;
+	</select>
+	<select id="getById" parameterType="int" resultType="com.piend.FastPay.bean.Article">
+		select * from ltg_notice_article where id = #{id}
+	</select>
+	<!-- 根据ID来获取活动详情(家长) -->
+	<select id="getByIdParents" parameterType="int" resultType="Article">
+	    select * from ltg_notice_article where id = #{id}
+	</select>
+	<select id="findByTitle" parameterType="String" resultType="com.piend.FastPay.bean.Article" >
+	<!--  parameterType=string  or  parameterType="java.lang.String" -->
+		select * from ltg_notice_article where sfsc = 0 
+				and title = #{title}
+	</select>
+	<select id="getArticleByNodeFolderId" parameterType="int" resultType="com.piend.FastPay.bean.Article">
+		select * from ltg_notice_article where sfsc = 0 and nodeID = #{nodeID}
+	</select>
+</mapper>

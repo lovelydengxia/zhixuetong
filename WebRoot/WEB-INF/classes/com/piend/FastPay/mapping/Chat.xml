@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.piend.FastPay.dao.ChatDao">
+	<insert id="insert" parameterType="Chatfriend">
+		insert into ltg_chat_friend (uid,friendid) values(#{uid},#{friendid})
+	</insert>
+	<select id="findApply" parameterType="Integer" resultType="java.util.HashMap">
+		SELECT * from ltg_apply_friend where id=#{id}
+	</select>
+	
+	<select id="hist" parameterType="Integer" resultType="java.util.HashMap">
+		(SELECT
+			ltg_chat_contact.id,
+			ltg_chat_contact.dialoguid,
+			ltg_chat_contact.uid,
+			ltg_chat_contact.message,
+			ltg_chat_contact.touid,
+			ltg_chat_contact.type,
+			ltg_chat_contact.is_show,
+			ltg_chat_contact.new_chat_id,
+			ltg_chat_contact.ctime,
+			ltg_user_account.nickname as name,
+		ltg_user_account.zhtype as zhtype
+		FROM
+			ltg_chat_contact
+		LEFT OUTER JOIN ltg_user_account on ltg_chat_contact.dialoguid = ltg_user_account.id
+		WHERE
+			ltg_chat_contact.uid = #{id}
+		AND ltg_chat_contact.type = 0
+		ORDER BY
+			ctime DESC)
+		UNION ALL
+		(
+		SELECT
+			ltg_chat_contact.id,
+			ltg_chat_contact.dialoguid,
+			ltg_chat_contact.uid,
+			ltg_chat_contact.message,
+			ltg_chat_contact.touid,
+			ltg_chat_contact.type,
+			ltg_chat_contact.is_show,
+			ltg_chat_contact.new_chat_id,
+			ltg_chat_contact.ctime,
+			ltg_chat_group.name as name,
+			'-1' as zhtype
+		FROM
+			ltg_chat_contact
+		LEFT OUTER JOIN ltg_chat_group on ltg_chat_contact.dialoguid = ltg_chat_group.id
+		WHERE
+			ltg_chat_contact.uid = #{id}
+		AND ltg_chat_contact.type = 1
+		ORDER BY
+			ctime DESC)
+	</select>
+	
+	<select id="getGroupUserInfo"  parameterType="Integer" resultType="java.util.HashMap">
+	SELECT
+		ltg_user_account.id,
+		ltg_user_account.username,
+		ltg_user_account.zhtype,
+		ltg_user_account.nickname,
+		ltg_user_account.img
+	FROM
+		ltg_chat_group_user
+	LEFT OUTER JOIN ltg_user_account on ltg_user_account.id = ltg_chat_group_user.uid
+	WHERE
+		ltg_chat_group_user.gid = #{id}
+	</select>
+	
+	
+	<!--好友列表 -->
+    <select id="getFriend" parameterType="Integer" resultType="java.util.HashMap">
+		(
+	SELECT DISTINCT
+		ltg_chat_friend.friendid AS id,
+		ltg_user_account.nickname AS name,
+		ltg_user_account.zhtype AS type,
+		ltg_chat_contact.new_chat_id AS readId,
+		(
+			SELECT
+				max(id)
+			FROM
+				ltg_chat_message
+			WHERE
+				ltg_chat_message.uid = ltg_chat_friend.uid
+		) AS newId,
+		ltg_chat_contact.message AS msg
+	FROM
+		ltg_chat_friend
+	LEFT OUTER JOIN ltg_user_account ON ltg_chat_friend.friendid = ltg_user_account.id
+	LEFT OUTER JOIN ltg_chat_contact ON ltg_chat_friend.uid = ltg_chat_contact.uid
+	AND ltg_chat_contact.dialoguid = ltg_chat_friend.friendid
+	AND ltg_chat_contact.type = 0
+	WHERE
+		ltg_chat_friend.uid = #{uid}
+)
+UNION ALL
+	(
+		SELECT DISTINCT
+			ltg_chat_group.id AS id,
+			ltg_chat_group. NAME AS name,
+			'-1' AS type,
+			ltg_chat_contact.new_chat_id AS readId,
+			(
+				SELECT
+					max(id)
+				FROM
+					ltg_chat_group_message
+				WHERE
+					ltg_chat_group_message.gid = ltg_chat_group.id
+			) AS newId,
+			ltg_chat_contact.message AS msg
+		FROM
+			ltg_chat_group_user
+		LEFT OUTER JOIN ltg_chat_group ON ltg_chat_group_user.gid = ltg_chat_group.id
+		LEFT OUTER JOIN ltg_chat_contact ON ltg_chat_group.id = ltg_chat_contact.dialoguid
+		AND ltg_chat_contact.type = 1 and ltg_chat_contact.uid = #{uid}
+		WHERE
+			ltg_chat_group_user.uid = #{uid}
+	) 
+    </select>
+<!--     好友列表备份 -->
+    <select id="getFriend-back" parameterType="Integer" resultType="java.util.HashMap">
+		SELECT
+			ltg_chat_friend.friendid,
+			ltg_chat_friend.friend_name,
+			ltg_user_account.zhtype
+		FROM
+			ltg_chat_friend
+		LEFT OUTER JOIN ltg_user_account 
+			ON ltg_chat_friend.friendid = ltg_user_account.id
+		WHERE
+			uid = #{uid}
+    </select>
+    
+<!--     好友申请列表 -->
+    <select id="addFriendIndexData" parameterType="Integer" resultType="java.util.HashMap">
+    	SELECT
+			ltg_apply_friend.id,
+			ltg_apply_friend.fromId,
+			ltg_apply_friend.toId,
+			ltg_apply_friend.applyTime,
+			ltg_apply_friend.status,
+			ltg_apply_friend.msg,
+			ltg_apply_friend.reMsg,
+			ifnull(a1.nickname,'') as toName,
+			ifnull(a2.nickname,'') as fromName
+		FROM
+			ltg_apply_friend
+		LEFT OUTER JOIN ltg_user_account a1 
+			on a1.id = ltg_apply_friend.toId 
+		LEFT OUTER JOIN ltg_user_account a2 
+			on a2.id = ltg_apply_friend.fromId
+		WHERE
+			fromId = #{uid}
+		OR toId = #{uid}
+    </select>
+    
+<!--     重复申请检测 -->
+    <select id="checkApply"  parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    	select * from ltg_apply_friend where fromid=#{fromid} and toid=#{toid}
+    </select>
+
+<!--     提交好友申请 -->
+    <insert id="apply" parameterType="java.util.HashMap">
+   		 insert into ltg_apply_friend(fromid,toid,applytime,status,msg) values(#{fromid},#{toid},#{applytime},0,#{msg})
+    </insert>
+<!--     同意好友申请 -->
+    <update id="agree" parameterType="int">
+    	UPDATE ltg_apply_friend set status=1 where id=#{id}
+    </update>
+    
+<!--     拒绝好友申请 -->
+    <update id="disagree" parameterType="java.util.HashMap">
+    	UPDATE ltg_apply_friend set status=2,reMsg=#{msg} where id=#{id}
+    </update>
+    
+    <!-- 查询好友 -->
+    <select id="friendInfo" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		SELECT DISTINCT
+			IFNULL(ltg_chat_friend.id, '') AS isfriend,
+			ltg_apply_friend.status AS applyStatus,
+			ltg_user_account.id,
+			ltg_user_account.xgh,
+			ltg_user_account.username,
+			ltg_user_account.nickname,
+			ltg_user_account.loginpassword,
+			ltg_user_account.paypassword,
+			ltg_user_account.zfye,
+			ltg_user_account.passquestion1,
+			ltg_user_account.passanswer1,
+			ltg_user_account.passquestion2,
+			ltg_user_account.passanswer2,
+			ltg_user_account.passquestion3,
+			ltg_user_account.passanswer3,
+			ltg_user_account.is_Phone_Validate,
+			ltg_user_account.loginIP,
+			ltg_user_account.ipdate,
+			ltg_user_account.status,
+			ltg_user_account.zhtype_flg,
+			ltg_user_account.zhtype,
+			ltg_user_account.sfcsh,
+			ltg_user_account.cjsj,
+			ltg_user_account.zxsj,
+			ltg_user_account.mark,
+			ltg_user_account.sfphone
+		FROM
+			ltg_user_account
+		LEFT OUTER JOIN ltg_user_teacher ON ltg_user_account.id = ltg_user_teacher.accountID
+		LEFT OUTER JOIN ltg_user_parents ON ltg_user_parents.accountID = ltg_user_account.id
+		LEFT OUTER JOIN ltg_user_student ON ltg_user_student.userID = ltg_user_parents.id
+		LEFT OUTER JOIN ltg_jcxx_pstudent ON ltg_jcxx_pstudent.parentsID = ltg_user_parents.id
+		AND ltg_jcxx_pstudent.studentID = ltg_user_student.id
+		LEFT OUTER JOIN ltg_apply_friend ON ltg_apply_friend.fromId = ${uid}
+		LEFT OUTER JOIN ltg_chat_friend ON ltg_chat_friend.uid = ${uid}
+		WHERE
+			(
+				ltg_user_account.nickname LIKE '%${str}%'
+				OR ltg_user_account.nickname LIKE '%${str}%'
+				OR ltg_user_teacher.name LIKE '%${str}%'
+				OR ltg_user_student.name LIKE '%${str}%'
+				OR ltg_user_parents.name LIKE '%${str}%'
+				OR ltg_user_teacher.phone LIKE '%${str}%'
+				OR ltg_user_parents.phone LIKE '%${str}%'
+			)
+		AND ltg_user_account.id != ${uid}
+    </select>
+</mapper>

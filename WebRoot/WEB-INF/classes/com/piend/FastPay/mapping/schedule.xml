@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+
+<mapper namespace="com.piend.FastPay.dao.IScheduleDao">
+	<insert id="add" parameterType="Schedule">
+		insert into ltg_time_schedule(WeekID,Week,SubjectID,Subject,LessonID,Lesson,TeacherID,TeacherName,classID,className,TermID,Term,remark)
+		values(#{weekID},#{week},#{subjectID}#{subject},#{lessonID},#{lesson},#{teacherID},#{teacherName},#{classID},#{className},#{termID},#{term},#{remark})
+	</insert>
+
+	<select id="getAll" resultType="Schedule">
+		select * from ltg_time_schedule
+	</select>
+	
+	<select id="getByTeacherID" parameterType="String" resultType="Schedule">
+		select * from ltg_time_schedule where teacherID=#{tid} GROUP BY Week  
+	</select>
+	
+	<select id="getByClassID" parameterType="String" resultType="Schedule">
+		select * from ltg_time_schedule where classID=#{cid}
+	</select>
+	
+	<select id="query" parameterType="Schedule" resultType="Schedule">
+		select * from ltg_time_schedule where 1 = 1 
+		<if test="term!=null and ''!=term">
+			and term=#{term} 
+		</if>
+		<if test="lesson!=null and ''!=lesson">
+			and lesson=#{lesson} 
+		</if>
+		<if test="subject!=null and ''!=subject">
+			and subject=#{subject} 
+		</if>
+		<if test="week!=null and ''!=week">
+			and week=#{week} 
+		</if>
+	</select>
+	
+	<select id="getClassByTeacherID" parameterType="String" resultType="ClassInfo">
+		select c.xqid,c.cid,c.bh,c.bjmc,c.bzrgh,c.remark,c.ssnj,c.bynf,c.count from ltg_jcxx_class c left join ltg_jcxx_tclass tc on c.cid=tc.cID where c.sfsc=0 and tc.status=1 and tc.tid=#{id}
+	</select>
+	
+	<select id="getChildrenByParentID" parameterType="String" resultType="Student">
+		select s.id,s.classID,s.name from ltg_jcxx_pstudent p left join ltg_user_student s on p.studentID=s.id where p.status=1 and p.parentsID=#{id} 
+	</select>
+	
+	<select id="getPID" parameterType="String" resultType="Parents">
+		select * from ltg_user_parents where accountID=#{0}
+	</select>
+	<select id="getScheduleByStudentIDAndAccountID" parameterType="com.piend.FastPay.bean.Schedule" resultType="com.piend.FastPay.bean.Schedule">
+		select sc.* from ltg_jcxx_pstudent ps 
+		left join ltg_user_student s on ps.studentID=s.id 
+		LEFT JOIN ltg_user_parents p ON ps.parentsID = p.id 
+		LEFT JOIN ltg_time_schedule sc ON sc.ClassID=s.classID where ps.status=1 and p.accountID=#{accountID} AND sc.ClassID is not NULL 
+		AND s.id = #{studentID} GROUP BY sc.WeekID,sc.LessonID 
+	</select>
+</mapper>

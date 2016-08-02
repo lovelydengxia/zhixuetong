@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+  <mapper namespace="com.piend.FastPay.dao.ITitleDao">
+	<update id="updateTitle" parameterType="Title">
+		update ltg_jcxx_title set title=#{title} where id=#{id}
+	</update>
+	<select id="getTitle" resultType="Title">
+		select * from ltg_jcxx_title 
+	</select>
+	<insert id="addTitle" parameterType="Title">
+		insert into ltg_jcxx_title (id.title) values(#{id},#{title})
+	</insert>
+  </mapper>

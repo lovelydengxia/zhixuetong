@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.piend.FastPay.dao.ClassInfoDao">
+	<!-- 用户查询 -->
+	<select id="getById" parameterType="int" resultType="ClassInfo">
+		select * from ltg_jcxx_class where cid = #{cid};
+	</select>
+	<!-- 用户添加 -->
+	<insert id="add" parameterType="ClassInfo">
+		insert into ltg_jcxx_class(cid,bh,bjmc,bzrgh,remark,ssnj,bynf,count,sfsc,addittion,xz,xqid)
+		values(#{cid},#{bh},#{bjmc},#{bzrgh},#{remark},#{ssnj},#{bynf},#{count},0,#{addittion},#{xz},#{xqid})
+	</insert>
+	<!--删除用户 -->
+	<update id="delete" parameterType="int">
+		update ltg_jcxx_class set sfsc=1 where cid= #{cid}
+	</update>
+	<!-- 用户修改 -->
+	<update id="update" parameterType="ClassInfo">
+		update ltg_jcxx_class set
+		cid=#{cid},bh=#{bh},bjmc=#{bjmc},bzrgh=#{bzrgh},remark=#{remark},ssnj=#{ssnj},bynf=#{bynf},count=#{count}
+		where cid=#{cid}
+	</update>
+	
+	<select id="getCount" resultType="int">
+		select count(*) from ltg_jcxx_class where sfsc=0
+	</select>
+	
+	<select id="getAll" resultType="ClassInfo" parameterType="PageModel">
+		select * from ltg_jcxx_class limit#{pageNo},#{pageSize} where sfsc=0;
+	</select>
+	
+	<select id="queryAll" resultType="ClassInfo">
+		select * from ltg_jcxx_class where sfsc=0
+	</select>
+	
+	<select id="getByBh" parameterType="String" resultType="ClassInfo">
+		select * from ltg_jcxx_class where sfsc=0 and bh = #{bh}
+	</select>
+
+	<select id="getByBjmc" parameterType="String" resultType="ClassInfo">
+	    select * from ltg_jcxx_class where sfsc=0 and bjmc like #{bjmc}
+	</select>
+
+	<select id="getClassByAccountId" parameterType="int" resultType="com.piend.FastPay.bean.ClassInfo">
+		SELECT c.cid,c.bjmc FROM ltg_jcxx_class c left JOIN ltg_jcxx_tclass tc on tc.cID = c.cid left JOIN ltg_user_teacher t on tc.tID = t.id LEFT JOIN ltg_user_account a on a.id = t.accountID WHERE c.sfsc = 0 and a.id = #{id} 
+ 
+	</select>
+	<select id="getBySchdis" parameterType="int" resultType="ClassInfo">
+	    select * from ltg_jcxx_class where sfsc=0 and xqid=#{xqid}
+	</select>
+
+	<select id="getGradeByClassName" resultType="com.piend.FastPay.bean.ClassInfo">
+		select c.cid,c.bjmc from ltg_jcxx_class c where c.sfsc = 0 group by c.bjmc 
+	</select>
+
+	<select id="getBySsnjAndName" parameterType="String" resultType="ClassInfo">
+		select * from ltg_jcxx_class where ssnj=#{ssnj} and bjmc=#{bjmc}
+	</select>
+	<select id="getGradeByClassSSNJ" resultType="com.piend.FastPay.bean.ClassInfo">
+		SELECT c.cid,c.ssnj FROM ltg_jcxx_class c where c.sfsc = 0 GROUP BY ssnj 
+	</select>
+	<select id="getByStudentXh" parameterType="String" resultType="com.piend.FastPay.bean.ClassInfo">
+		SELECT c.cid,c.bjmc,s.name ,s.classID,s.xh FROM ltg_user_student s LEFT JOIN ltg_jcxx_class c ON c.cid = s.classID WHERE c.sfsc = 0  AND s.xh = #{xh} 
+	</select>
+
+</mapper>

@@ -1,0 +1,83 @@
+.find_pwd{
+    margin: 50px;
+    padding: 20px;
+    border: 1px solid #EAEAEA;
+}
+.pwd_box td{
+    line-height: 30px!important;
+}
+.code{
+    width: 66px!important;
+    margin-right: 5px;
+}
+.btn-warning{
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.find_pwd{
+    margin: 10px 50px;
+    padding: 20px;
+    border: 1px solid #EAEAEA;
+}
+
+.find_pwd_tit li{
+    cursor: default;
+    font-weight: 500;
+    font-size: 18px;
+    height: 50px;
+    line-height: 50px;
+    padding-left: 10px;
+    width: 200px;
+    text-align: center;
+}
+
+.box-header {
+    border: none;
+    padding-top: 5px;
+    padding-left: 5px;
+    border-bottom: 1px solid #DEDEDE;
+    border-radius: 3px 3px 0 0;
+    -webkit-border-radius: 3px 3px 0 0;
+    -moz-border-radius: 3px 3px 0 0;
+    height: 35px;
+    min-height: 35px !important;
+    margin-bottom: 0;
+    font-weight: bold;
+    font-size: 16px;
+    background: -moz-linear-gradient(top, rgba(255, 255, 255, 0) 0%, rgba(0, 0, 0, 0.1) 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(255, 255, 255, 0)), color-stop(100%, rgba(0, 0, 0, 0.1)));
+    background: -webkit-linear-gradient(top, rgba(255, 255, 255, 0) 0%, rgba(0, 0, 0, 0.1) 100%);
+    background: -o-linear-gradient(top, rgba(255, 255, 255, 0) 0%, rgba(0, 0, 0, 0.1) 100%);
+    background: -ms-linear-gradient(top, rgba(255, 255, 255, 0) 0%, rgba(0, 0, 0, 0.1) 100%);
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(0, 0, 0, 0.1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00ffffff', endColorstr='#1a000000', GradientType=0);
+}
+.find_pwd_tit{
+    height: 50px;
+    line-height: 50px;
+    margin: 20px 50px;
+    border: 1px solid #EAEAEA;
+}
+.pwd_box td{
+    line-height: 30px!important;
+}
+.code{
+    width: 100px!important;
+}
+.btn-warning{
+    padding-left: 20px;
+    padding-right: 20px;
+}
+.get_code{width: 82px;}
+.find_way{
+    border-bottom: 2px solid #ccc;
+}
+.find_pwd_tit .left{
+    width: 288px;
+}
+.tip{
+	font-size: 12px;
+	color: #888;
+	margin-left: 15px;
+}

@@ -1,0 +1,65 @@
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/porject/!svn/ver/4656/SSPhone/WebRoot/WEB-INF/jsp/account
+END
+set-tea.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/porject/!svn/ver/4656/SSPhone/WebRoot/WEB-INF/jsp/account/set-tea.jsp
+END
+set-par.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/porject/!svn/ver/4632/SSPhone/WebRoot/WEB-INF/jsp/account/set-par.jsp
+END
+resetpwd.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/porject/!svn/ver/4625/SSPhone/WebRoot/WEB-INF/jsp/account/resetpwd.jsp
+END
+changepaypwd.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/porject/!svn/ver/4630/SSPhone/WebRoot/WEB-INF/jsp/account/changepaypwd.jsp
+END
+bangstu.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/porject/!svn/ver/4600/SSPhone/WebRoot/WEB-INF/jsp/account/bangstu.jsp
+END
+resetpwdsuccess.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/porject/!svn/ver/4543/SSPhone/WebRoot/WEB-INF/jsp/account/resetpwdsuccess.jsp
+END
+changepwdsuccess.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/porject/!svn/ver/4341/SSPhone/WebRoot/WEB-INF/jsp/account/changepwdsuccess.jsp
+END
+changepaypwdsuccess.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/porject/!svn/ver/4252/SSPhone/WebRoot/WEB-INF/jsp/account/changepaypwdsuccess.jsp
+END
+bangclass.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/porject/!svn/ver/4582/SSPhone/WebRoot/WEB-INF/jsp/account/bangclass.jsp
+END
+changepwd.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/porject/!svn/ver/4252/SSPhone/WebRoot/WEB-INF/jsp/account/changepwd.jsp
+END

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+  <mapper namespace="com.piend.FastPay.dao.GradeDao">
+  	<insert id="insertExcel" parameterType="com.piend.FastPay.bean.Grade">
+  		insert into ltg_score_grade (ji,ban,number,name,chinese_a,chinese_b,math_a,math_b,english_a,english_b,physics_a,physics_b,chemistry,biology,political,history,geography,counts,orderbyji,orderbyban,tablename)  
+  		values (#{ji},#{ban},#{number},#{name},#{chinese_a},#{chinese_b},#{math_a},#{math_b},#{english_a},#{english_b},#{physics_a},#{physics_b},#{chemistry},#{biology},#{political},#{history},#{geography},#{counts},#{orderbyji},#{orderbyban},#{tablename})
+  	</insert>
+  	<select id="getByName" parameterType="string" resultType="com.piend.FastPay.bean.Grade">
+  		select * from ltg_score_grade where name = #{name}
+  	</select>
+  	<select id="getGradeByTestName" resultType="com.piend.FastPay.bean.Grade">
+  		select g.testID,g.testName from ltg_score_grade g group by g.testName 
+  	</select>
+  	<insert id="insert" parameterType="com.piend.FastPay.bean.Grade">
+  		insert into ltg_score_grade (testID,testName,subjectID,subjectName,testTypeID,testType,classID,className,totalScore,averageScore,testTime,schoolDistrictID,schoolDistrictName) values (#{testID},#{testName},#{subjectID},#{subjectName},#{testTypeID},#{testType},#{classID},#{className},#{totalScore},#{averageScore},#{testTime},#{schoolDistrictID},#{schoolDistrictName}) 
+  	</insert>
+  	<select id="getById" parameterType="int" resultType="com.piend.FastPay.bean.Grade">
+  		select * from ltg_score_grade where testID = #{testID} group by testID 
+  	</select>
+  	<insert id="add" parameterType="com.piend.FastPay.bean.Grade">
+  		select MAX(testID) into @a from ltg_score_grade; insert into ltg_score_grade (testID,testName,testTime) values (@a+1,#{testName},#{testTime}) 
+  	</insert>
+  	<select id="findAll" resultType="com.piend.FastPay.bean.Grade">
+  		SELECT g.testTime,g.subjectID,g.testID,g.testName,g.schoolDistrictID,g.schoolDistrictName,g.classID,g.className,g.testTypeID,g.testType,g.totalScore,g.averageScore FROM ltg_score_grade g WHERE g.schoolDistrictName IS NOT NULL AND g.className IS NOT NULL AND g.testType IS NOT NULL 
+  	</select>
+  	<select id="findGradeByConditions" parameterType="com.piend.FastPay.vo.GradeCondition" resultType="com.piend.FastPay.bean.Grade">
+  		SELECT g.testTypeID,g.subjectID,g.testTime,g.testID,g.testName,g.schoolDistrictID,g.schoolDistrictName,g.classID,g.className,g.testTypeID,g.testType,g.totalScore,g.averageScore FROM ltg_score_grade g WHERE g.schoolDistrictName IS NOT NULL AND g.className IS NOT NULL AND g.testType IS NOT NULL 
+			<if test="classID != null and classID != '' ">
+				and g.classID = #{classID} 
+			</if>
+			<if test="ssnjID != null and ssnjID != '' ">
+				and g.classID = #{ssnjID} 
+			</if>
+			<if test="subjectID != null and subjectID != '' ">
+       			and g.subjectID = #{subjectID} 
+     		</if>
+     		<if test="testID != null and testID != '' ">
+     			and g.testID = #{testID} 
+     		</if>
+     		<if test="testTypeID != null and testTypeID != '' ">
+     			and g.testTypeID = #{testTypeID} 
+     		</if>
+     		<if test="beginTestTime != null and beginTestTime != '' ">
+     			and g.testTime BETWEEN #{beginTestTime} 
+     		</if>
+     		<if test="endTestTime != null and endTestTime != '' ">
+     			and #{endTestTime} 
+     		</if>
+  	</select>
+  	<select id="findAllValidTestNameAndAccordingToTimeOrder" resultType="com.piend.FastPay.vo.GradeCondition">
+  		select g.testID,g.testName, GROUP_CONCAT(DISTINCT(g.subjectName)), g.testTime, g.testType from ltg_score_grade g where g.testTime is not null AND g.subjectName is not null GROUP BY g.testTime,g.testType order by g.testTime  
+  	</select>
+  	<select id="findAllValidSubjectName" resultType="com.piend.FastPay.vo.GradeCondition">
+  		SELECT g.subjectID,g.subjectName FROM ltg_score_grade g WHERE g.subjectName is not null GROUP BY g.subjectID desc;
+  	</select>
+  	<select id="getGradeTestNameByAccountID" parameterType="int" resultType="com.piend.FastPay.bean.Grade">
+		SELECT g.* FROM ltg_score_grade g 
+			LEFT JOIN ltg_jcxx_tclass tc ON tc.cID = g.classID 
+			LEFT JOIN ltg_user_teacher t ON t.id = tc.tID 
+			LEFT JOIN ltg_user_account a ON a.id = t.accountID 
+		WHERE g.subjectName IS NOT NULL AND g.testType IS NOT NULL AND g.testTime IS NOT NULL AND g.className IS NOT NULL 
+			AND a.id = #{accountID}  GROUP BY g.testID  	
+	</select>
+	<select id="getParentGradeTestNameByAccountID" parameterType="int" resultType="com.piend.FastPay.bean.Grade">
+		SELECT g.* FROM ltg_score_grade g 
+			LEFT JOIN ltg_user_student s ON s.classID = g.classID 
+			LEFT JOIN ltg_jcxx_pstudent ps ON ps.studentID = s.id 
+			LEFT JOIN ltg_user_parents p ON p.id = ps.parentsID 
+			LEFT JOIN ltg_score_details d ON d.xh = s.xh AND d.classID = s.classID AND d.schoolDistrictID = g.schoolDistrictID AND d.subjectID = g.subjectID AND d.testID = g.testID AND d.testTime = g.testTime AND d.testTypeID = g.testTypeID 
+		WHERE g.subjectID IS NOT NULL AND g.schoolDistrictID IS NOT NULL AND g.testTime IS NOT NULL AND g.testTypeID IS NOT NULL AND g.classID IS NOT NULL 
+			AND p.accountID = #{accountID}  
+		GROUP BY g.testID   		
+	</select>
+  </mapper>

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.piend.FastPay.dao.IParents">
+
+	<insert id="add" parameterType="Parents">
+		insert into ltg_user_parents(name,degree,phone,birthday,accountid)
+		values
+		(#{name},#{degree},#{phone},#{birthday},#{accountid});
+	</insert>
+
+	<insert id="reginsert" parameterType="Parents">
+		insert into ltg_user_parents(accountID,phone) values(#{accountid},#{phone});
+	</insert>
+	
+	<update id="regupdate" parameterType="Parents">
+		update ltg_user_parents set name=#{name}, birthday=#{birthday}, degree=#{degree} where accountid=#{accountid}
+	</update>
+	
+	<select id="getbyaccid" parameterType="String" resultType="Parents">
+		select * from ltg_user_parents where accountid = #{accid}
+	</select>
+	
+	<insert id="insertpstu" parameterType="Pstudent">
+		insert into ltg_jcxx_pstudent(studentid,parentsid,par,status) values(#{stuID},#{parentsID},#{par},1)
+	</insert>
+	
+	<update id="delete">
+		update ltg_user_parents where id=#{id};
+	</update>
+
+	<update id="update">
+		update ltg_user_parents set
+		name=#{name},sex=#{sex},sfzjh=#{sfzjh},phone=#{phone},email=#{email},QQ=#{QQ},mz=#{mz},mark=#{mark},degree=#{degree}
+		where id=#{id};
+	</update>
+
+	<select id="getIDByAccountID" parameterType="String" resultType="String">
+		select id from ltg_user_parents where accountID=#{id};
+	</select>
+	
+	<select id="getParentsByStudentId" parameterType="int" resultType="com.piend.FastPay.bean.Parents">
+		select p.id,p.name from ltg_user_parents p left join ltg_user_student s on s.parentID = p.id where s.parentID = #{parentID} 
+	</select>
+	
+	
+	<select id="getbyparid" parameterType="String" resultType="String">
+		select studentID from ltg_jcxx_pstudent where parentsID=#{parid} and status=1
+	</select>
+	<select id="getpdpst" parameterType="int" resultType="Pstudent">
+		select * from ltg_jcxx_pstudent where parentsID=#{0} and studentID=#{1} and status=1
+	</select>
+	
+	<update id="delbang" parameterType="int">
+		update ltg_jcxx_pstudent set status=0 where studentID=#{0} and parentsID=#{1}
+	</update>
+	
+	<select id="getstuinfo" parameterType="String" resultType="com.piend.FastPay.vo.BangStudent">
+		select  st.`name`,s.XXNAME,ds.xqmc,t.bjmc from ltg_jcxx_school s ,ltg_jcxx_schooldistrict ds, ltg_jcxx_class t, ltg_user_student st  where st.id=#{stuid} and t.cID=st.classID and t.xqid=ds.id and ds.sid=s.id;
+	</select>
+	<select id="getparaccidbycla" parameterType="String" resultType="String">
+		SELECT DISTINCT e.accountID from ltg_user_student a ,ltg_jcxx_pstudent b ,ltg_jcxx_class c ,ltg_user_parents e
+		where c.cid=#{id} and a.classID=c.cid and b.studentID=a.id and b.parentsID = e.id 
+	</select>
+	<select id="findStudentID" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	SELECT 
+	ltg_user_student.id,
+	ltg_user_student.`name`,
+	ltg_notice_signdetail.paymentStatusCD
+    FROM
+	ltg_jcxx_pstudent
+    LEFT OUTER JOIN ltg_notice_signdetail ON ltg_notice_signdetail.signID = ltg_jcxx_pstudent.studentID
+    AND paymentStatusCD = 1 AND ltg_notice_signdetail.articleID = #{articleID}
+    LEFT OUTER JOIN ltg_user_student on ltg_user_student.id = ltg_jcxx_pstudent.studentID
+    WHERE
+    ltg_jcxx_pstudent.parentsID = #{id} AND ltg_jcxx_pstudent.`status` = 1
+	</select>
+	<update id="updateUserInfoParent" parameterType="com.piend.FastPay.bean.Parents">
+		update ltg_user_parents set 
+			name=#{name},
+			sex=#{sex},
+			emaile=#{emaile},
+			phone=#{phone},
+			qq=#{QQ},
+			birthday=#{birthday},
+			mz=#{mz}   
+		where id=#{id} 
+	</update>
+</mapper>

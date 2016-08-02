@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>主页</title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/basic.css" rel="stylesheet" />
+		<script type="text/javascript" src="js/location.js"></script>
+		<style type="text/css">
+			body,
+			.mui-content {
+				background: #fff;
+			}
+			
+			.mui-content-padded {
+				width: 90%;
+				margin-left: 5%;
+				margin-top: 0px;
+				background: #fff;
+			}
+			
+			.banner {
+				height: 160px;
+				background: url('${img}') no-repeat center;
+				background-size: 100% 100%;
+			}
+			
+			#sliderSegmentedControl {
+				height: 55px;
+				background-color: #fff;
+			}
+			
+			#sliderSegmentedControl a {
+				line-height: 55px;
+			}
+			
+			#login-form {
+				margin-top: 25px;
+				width: 90%;
+				left: 5%;
+			}
+			
+			.mui-input-group .mui-input-row {
+				height: 60px;
+				border: 1px solid darkgray;
+				border-radius: 5px;
+			}
+			
+			.mui-input-row label {
+				line-height: 36px;
+				width: 25%;
+			}
+			
+			div#scroll1 {
+				border: none;
+			}
+			
+			#item1mobile {
+				background: #fff;
+			}
+			
+			.mui-input-row label~input {
+				height: 58px;
+				width: 75%
+			}
+			
+			.mui-input-group:after,
+			.mui-input-group .mui-input-row:after,
+			.mui-input-group:before {
+				background-color: #fff;
+			}
+			
+			.mui-input-row .mui-input-clear~.mui-icon-clear {
+				top: 20px;
+			}
+			
+			.psw .mui-input-clear~.mui-icon-clear {
+				display: none;
+			}
+			
+			.getI {
+				position: absolute;
+				right: 10px;
+				top: 8px;
+				padding: 10px 18px;
+				border-radius: 5px;
+				background: #11C036;
+				color: #fff;
+				cursor: pointer;
+			}
+			
+			#login,
+			#login1 {
+				height: 60px;
+			}
+			
+			.link-area {
+				margin-top: 40px;
+			}
+			
+			#forgetPassword {
+				float: right;
+			}
+			
+			.mui-btn-primary {
+				background: #11C036;
+				border: none;
+			}
+			
+			.hide {
+				display: none;
+			}
+			
+			.mui-slider .mui-segmented-control.mui-segmented-control-inverted~.mui-slider-group .mui-slider-item {
+				border: none;
+			}
+			
+			.text-center {
+				text-align: center;
+				padding: 10px 0;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="mui-content">
+			<!-------顶部图片 --------->
+			<div class="banner"></div>
+			<!--end-->
+			<!--——————tab选项——————-->
+			<div id="slider" class="mui-slider">
+				<!-- 		<div id="sliderSegmentedControl" class="mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
+					<a class="mui-control-item" id="phon-d" href="#item1mobile">
+				手机号登录
+			</a>
+					<a class="mui-control-item" id="acc-d" href="#item2mobile">
+				账号登录
+			</a>
+				</div> -->
+				<div id="sliderProgressBar" class="mui-slider-progress-bar mui-col-xs-6"></div>
+				<div class="mui-slider-group" style="height:195px;">
+					<div id="item1mobile" class="mui-slider-item mui-control-content mui-active">
+						<div id="scroll1" class="mui-scroll-wrapper">
+							<div class="mui-scroll">
+								<form id='login-form' class="mui-input-group">
+									<div class="mui-input-row">
+										<label>账号</label>
+										<input id='account2' type="text" class="mui-input-clear mui-input" placeholder="请输入您在学校登记的手机号">
+									</div>
+									<div class="mui-input-row psw" style="margin-top: 10px;">
+										<label>密码</label>
+										<input id='password2' type="password" class="mui-input-clear mui-input" placeholder="请输入密码">
+
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+					<!-- 	<div id="item2mobile" class="mui-slider-item mui-control-content">
+						<div id="scroll2" class="mui-scroll-wrapper">
+							<div class="mui-scroll">
+								<div class="mui-loading">
+								</div>
+							</div>
+						</div>
+
+					</div> -->
+				</div>
+			</div>
+			<!--end-->
+			<div class="text-center"><span id="span_error" style="color:red;"></span></div>
+			<div class="mui-content-padded" id='logindiv'>
+				<!--<button id='login' class="mui-btn hide mui-btn-block mui-btn-primary">手机登录</button>-->
+				<button id='login1' class="mui-btn  mui-btn-block mui-btn-primary">登录</button>
+				<div class="link-area">
+					<a href="WEB-INF/jsp/register/step1.html" id='reg'>注册账号</a>
+					<a href="Account/getresetpwd.html" id='forgetPassword'>忘记密码</a>
+				</div>
+			</div>
+			<div class="mui-content-padded oauth-area">
+			</div>
+		</div>
+		<script src="js/jquery-1.10.1.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript" src="js/mui.min.js"></script>
+		<script>
+			//			//获取验证码
+			//			function phonv(){
+			//			debugger;
+			//				var pho = $('#account2').val();
+			//				$.post('login/loginPhoneVlidate.html', { 'pho': pho }, function (text) { 
+			//					if(text!=''){
+			//						$("#span_error").text(text);
+			//					}
+			//					else{
+			//						$("#span_error").text('');
+			//					}
+			//				
+			//				});
+			//			}
+			//			
+
+			//			 //账户登陆
+			//			 $('#login1').click(function(){				
+			//				var acc=$('#account2').val();
+			//				var psd=$('#password2').val();
+			//				$.post('login/login.html',{'xgh':acc,'loginpassword':psd },function (data){
+			//							if(data.zhtype == '2'){
+			//	          				window.location.href='grade/turn.html';}
+			//	          				if(data.zhtype == '4'){
+			//	          				window.location.href='parent/get.html';}
+			//	          				$("#span_error").text(data.err);
+			//	          			},'json');
+			//
+			//			 });
+			//手机号登陆
+			$('#login1').click(function() {
+				console.log("denglu");
+
+				var acc = $('#account2').val();
+				var psd = $('#password2').val();
+				
+				var getStr = "http://menjinapi.zhxy.net/ashx/UserHandler.ashx?action=familyLogin&username="+acc+"&userpass=" + psd;
+				$.get(getStr, function(data) {
+					console.log(getStr);
+					//							if(data.zhtype == '2'){
+					//	          				window.location.href='grade/turn.html';}
+					//	          				if(data.zhtype == '4'){
+					//	          				window.location.href='parent/get.html';}
+					$("#span_error").text(data.description);
+				}, 'json');
+			});
+		</script>
+	</body>
+
+</html>

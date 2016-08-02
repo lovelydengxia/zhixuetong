@@ -1,0 +1,278 @@
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%
+String path = request.getContextPath();
+String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+%>
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+  <base href="<%=basePath%>">
+ <meta charset="utf-8" />
+  
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title></title>
+    <script src="<%=basePath%>js/mui.min.js"></script>
+    <link href="<%=basePath%>css/mui.min.css" rel="stylesheet"/>
+    <link href="<%=basePath%>css/style.css" rel="stylesheet" />
+    <script type="text/javascript" src="<%=basePath%>js/jquery.mobile.custom.js" ></script>
+	<script type="text/javascript" src="<%=basePath%>js/jquery-1.10.1.min.js" ></script>
+    <style>
+			html,
+			body,
+			.mui-content {
+				height: 0px;
+				margin: 0px;
+				background-color: #efeff4;
+			}
+			h5.mui-content-padded {
+				margin-left: 3px;
+				margin-top: 20px !important;
+			}
+			h5.mui-content-padded:first-child {
+				margin-top: 12px !important;
+			}
+			.mui-btn {
+				font-size: 16px;
+				padding: 8px;
+				margin: 3px;
+			}
+			.ui-alert {
+				text-align: center;
+				padding: 20px 10px;
+				font-size: 16px;
+			}
+			* {
+				-webkit-touch-callout: none;
+				-webkit-user-select: none;
+			}
+		</style>
+    <script type="text/javascript" charset="UTF-8">
+	mui.init();
+	function bang2(){
+			window.location.herf="register/get322.html";
+			};
+	
+	
+	</script>
+</head>
+<body>
+	<!------header------->
+		<header class="mui-bar mui-bar-nav" >
+			<a class=" mui-icon  mui-pull-left" onclick="clicked()" href="<%=basePath%>register/get22.html"><img class="back" src="img/back.png" /></a>
+			<h1 id="title" class="mui-title">绑定第一个学生</h1>
+		</header>
+		<div class="mui-content p-top-5">
+		    <form class="mui-input-group" action="" method="post" id="subForm">
+		    <div class="mui-input-row">
+		        <label>学校：</label>
+		        <select id="sel0" name="school" >
+		        	
+		        </select> 
+		    </div>
+		    <div class="mui-input-row">
+		        <label>校区：</label>
+		        <select id="sel1" name="schooldistrict" >
+		        	
+		        </select>
+		    </div>
+		        
+		    <div class="mui-input-row">
+		        <label>班级：</label>
+		        <select name="class" id="sel2" >
+		        	
+		        </select>
+		    </div>
+		    
+		    
+		    <div class="mui-input-row">
+		        <label>学生姓名：</label>
+		        <input type="text" class="mui-input-clear"  name="name" id="name"/>
+		    </div>
+		    <div class="mui-input-row">
+		        <label>学号：</label>
+		        <input type="text" class="mui-input-clear" name="xh" id="xh"/>
+		        <!-- <button class="btn-ts mui-btn mui-btn-warning" onclick="yz()">验证</button> -->
+		    </div>
+		    <div class="mui-input-row">
+		        <label>与学生关系：</label>
+		         <select name="par" id="par">
+		         </select>
+<!-- 		        <input type="text" class="mui-input-clear"  name="par"/> -->
+		    </div>
+		</form>
+		    <div class="p-x-15">
+		    <div >
+		    <span style="color:Green;" id="span_error0"></span>
+		    <span style="color:red;" id="span_error1">${msg }</span>
+		    </div>
+			<button class="mui-btn mui-btn-block " id="continuesbang">继续添加学生</button>
+			<button type="submit" class="mui-btn mui-btn-block mui-btn-success" id="sbmit">提交</button>
+			</div>
+		
+		</div>
+		
+</body>
+
+<script type="text/javascript">
+ 	var flag=0;
+	$.ajax({
+			url:"<%=basePath%>register/getschool.html",
+			type:"POST",
+			dataType:"json",
+			success:function(data){
+				$("#sel0").html("");
+				$("#sel0").html("<option value=''>" + "请选择"+ "</option>");
+				$.each(data,function(i,item){
+					$("#sel0").append("<option value='"+item.id+"'>"+item.xxname+"</option>");
+				})
+			}
+		})
+			
+			$("#sel0").on("change",function() {
+				$("#sel1").html("");
+				$("#sel2").html("");
+				var xxid = $("#sel0").val();
+				$.ajax({
+				url:"<%=basePath%>register/getDistrict.html",
+				type:"POST",
+				data : {id : xxid},
+				dataType:"json",
+				success:function(data){
+					$("#sel1").html("");
+					$("#sel1").html("<option value=''>" + "请选择"+ "</option>");
+					$.each(data,function(i,item){
+					$("#sel1").append("<option value='"+item.id+"'>"+item.xqmc+"</option>");
+				})
+				}
+			})
+			})
+			
+		
+  			$("#sel1").on("change",function() {
+				$("#sel2").html("");
+				var xqid = $("#sel1").val();
+				$.ajax({
+					url : "<%=basePath%>register/getClassByDistrictId.html",
+					type : "POST",
+					data : {id : xqid},
+					dataType : "json",
+					success : function(data) {
+							$("#sel2").html("");
+							$.each(data, function(i, item) {
+							$("#sel2").append("<option value='"+item.cid+"'>" + item.bjmc+ "</option>");
+						})
+					}
+				})
+			})
+	
+
+		
+		<%-- //获取已绑定的学生信息
+		
+		$(function(){
+			
+			$.ajax({
+				url : "<%=basePath%>register/getbang2.html",
+				dataType:"json",
+				type:"POST",
+				async:false,
+				success:function(data){
+					$.each(data,function(i,item){
+						$("#bd").append('<li class="mui-table-view-cell"> <span>'+item.xxname+' '+item.xqmc+' '+item.bjmc+' '+item.name+'</span><button onclick="delete1('+item.sid+')" class="btn-ts mui-btn btn-sm mui-btn-success">删除</button></li>');
+						})
+				}
+			})
+		})   --%>
+	
+	$("#xh").blur( function () {  
+		var xh= $('#xh').val();
+		var name=$('#name').val();
+		var classid=$('#sel2').val();
+		$.ajax({
+			url:"<%=basePath%>register/yzxh.html",
+			type:"post",
+			data:{xh:xh,name:name,classid:classid},
+			datatype:"text",
+			success:function(data){
+				if(data=="信息正确"){
+					flag=1;
+					$("#span_error0").text(data);
+					$("#span_error1").text("");
+				}else{
+					flag=2;
+					$("#span_error1").text(data);
+					$("#span_error0").text("");
+				}
+			}
+		})
+	});
+	
+	$(function(){
+	
+	//获取亲子关系
+			$.ajax({
+				url : "<%=basePath%>register/getParetnthood.html",
+				dataType:"json",
+				type:"POST",
+				async:false,
+				success:function(data){
+					$.each(data,function(i,item){
+						$("#par").append("<option value='"+item.name+"'>" + item.name+ "</option>");;
+					})
+				}
+			})
+	
+	$("#continuesbang").click(function(){
+		var claid=$("#sel2").val();
+		var xqid=$("#sel1").val();
+		if(xqid==null||xqid==""){
+			$("#span_error1").text("请选择校区信息");
+			$("#span_error0").text("");
+		}
+		else if(claid==null){
+			$("#span_error1").text("请选择班级信息");
+			$("#span_error0").text("");
+		}
+		else if(flag!=1){
+			$("#span_error1").text("请输入正确学号信息");
+			$("#span_error0").text("");
+		}
+		else{
+			$("#subForm").attr("action","<%=basePath%>register/step322.html");
+			$("#subForm").submit();
+		}			
+		})
+		
+	$("#sbmit").click(function(){
+	window.location.herf = "step322.html";
+//		var chk_value =[]; 
+//		var claid=$("#sel2").val();
+//		var xqid=$("#sel1").val();
+//		var xxid=$("#sel0").val();
+//		$('input[name="subfxk"]:checked').each(function(){
+//		chk_value.push($(this).val());
+//		});
+//		if(xxid==null || xxid==""){
+//			$("#msg").text("请选择学校信息");
+//		} 
+//		else if(xqid==null || xqid==""){
+//			$("#msg").text("请选择校区信息");
+//		}
+//		else if(claid==null || claid==""){
+//			$("#msg").text("请选择班级信息");
+//		}
+//		else if(flag!=1){
+//			$("#span_error1").text("请输入正确学号信息");
+//			$("#span_error0").text("");
+//		}
+//		else{
+//			$("#subForm").attr("action","<%=basePath%>register/step32.html");
+//			$("#subForm").submit();
+//		}	
+//		})
+//
+//			
+	})
+</script>
+</html>

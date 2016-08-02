@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+
+<mapper namespace="com.piend.FastPay.dao.IStudentDao">
+<resultMap type="StudentDto" id="sdto">
+	<id column="id" property="id"/>
+	<result column="name" property="name"/>
+	<result column="xh" property="xh"/>
+	<result column="sex" property="sex"/>
+	<result column="zzmm" property="zzmm"/>
+	<result column="phone" property="phone"/>
+	<result column="xslx" property="xslx"/>
+</resultMap>
+	<insert id="add" parameterType="Student">
+		insert into ltg_user_student(parentID,classID,userID,xh,name,sex,csrq,email,zzmm,phone,sfzjh,xslx,qq,bdtime,mark，address)
+		values(#{parentID},#{classID},#{userID},#{xh},#{name},#{sex},#{csrq},#{email},#{zzmm},#{phone},#{sfzjh},#{xslx},#{qq},#{bdtime},#{mark},#{address});
+	</insert>
+	<update id="update" parameterType="Student">
+		update ltg_user_student set parentID=#{parentID},classID=#{classID},sex=#{sex},email=#{email},zzmm=#{zzmm},phone=#{phone},xslx=#{xslx},qq=#{qq},lxtime=#{lxtime},mark=#{mark},address=#{address} where id=#{id}
+	</update>
+	<select id="getAll" resultType="Student">
+		select * from ltg_user_student where 1=1;
+	</select>
+	<select id="getForPage" resultMap="sdto">
+		select s.id,s.classID,s.parentID,s.userID,s.xh,s.name,s.zzmm,s.sex,s.phone,s.xslx,s.address from ltg_user_student s join ltg_jcxx_class c on s.classID=c.cid where 1=1 
+	</select>
+	<select id="getCount" resultType="int">
+		select count(*) from ltg_user_student;
+	</select>
+	<select id="getById" resultType="Student" parameterType="String">
+		select * from ltg_user_student where id=#{id};
+	</select>
+	<select id="getByXh" resultType="Student" parameterType="String">
+		select * from ltg_user_student where xh=#{xh};
+	</select>
+	<update id="update2" parameterType="Student">
+		update ltg_user_student set userID=#{userID} where id=#{id}
+	</update>
+	<select id="getByUserId" parameterType="int" resultType="com.piend.FastPay.bean.Student" >
+		SELECT * from ltg_user_student where userId = #{id}
+	</select>
+	<select id="getStudentsByClassId" parameterType="int" resultType="com.piend.FastPay.bean.Student">
+		select s.id,s.name,s.parentID from ltg_user_student s left join ltg_jcxx_class c on c.cid = s.classID where c.cid = #{cid}  
+	</select>
+	<!-- <select id="findStudentByParentId" parameterType="int" resultType="com.piend.FastPay.bean.Student">
+		SELECT s.parentID,s.id,s.xh,s.name  FROM ltg_user_student s LEFT JOIN ltg_user_parents p ON s.parentID = p.id WHERE p.id = #{parentID}  
+	</select> -->
+	<!-- <select id="findStudentByParentId" parameterType="String" resultType="com.piend.FastPay.bean.Student">
+		SELECT s.parentID,s.id,s.xh,s.name FROM ltg_user_student s LEFT JOIN ltg_user_parents p ON s.parentID = p.id LEFT JOIN ltg_user_account a ON a.id = p.accountID WHERE a.id = #{accountID}  
+	</select> -->
+	<select id="findStudentByParentId" parameterType="String" resultType="com.piend.FastPay.bean.Student">
+		SELECT ps.parentsID,s.id,s.xh,s.name  FROM ltg_user_student s LEFT JOIN ltg_jcxx_pstudent ps ON ps.studentID = s.id  AND ps.status = 1  LEFT JOIN ltg_user_parents p ON p.id = ps.parentsID  LEFT JOIN ltg_user_account a ON a.id = p.accountID WHERE a.id = #{accountID} GROUP BY s.name 
+	</select>
+</mapper>

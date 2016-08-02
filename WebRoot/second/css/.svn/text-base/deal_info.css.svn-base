@@ -1,0 +1,19 @@
+
+.deal_info{
+    width: 660px;
+    margin: 100px auto;
+    border: 1px solid #E9E9E9;
+    padding: 0 20px 20px 20px;
+}
+.fa-file-text{
+    font-size: 20px;
+    color: #009CFF;
+    margin: 5px 10px;
+}
+.del_tbl{
+    padding: 10px;
+}
+.del_tbl td{
+    font-size: 16px;
+    padding: 5px 8px;
+}

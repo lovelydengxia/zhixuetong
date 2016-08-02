@@ -1,0 +1,27 @@
+.pay_success{
+    border: 1px solid #ccc;
+    background: #f3f3f3;
+    width: 800px;
+    margin: 80px auto;
+}
+.pay_success{
+    padding:20px 10px 20px 40px ;
+}
+
+.logo-box p{
+    padding: 10px;
+
+}
+.suc{
+    padding: 20px 0 40px 0;
+    line-height: 70px;
+    font-weight: 600;
+    font-size: 24px;
+}
+.more_c{
+    padding: 10px 0;
+
+}
+.more_c .ui-separator-pd{
+    color: #3EB8EC;
+}

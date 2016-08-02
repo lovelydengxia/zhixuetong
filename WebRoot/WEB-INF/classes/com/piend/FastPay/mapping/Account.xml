@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.piend.FastPay.dao.IAccountDao">
+	<!-- 
+		修改用户头像
+		小米
+		2016年5月30日14:13:45
+	 -->
+	<update id="changeImg">
+		UPDATE ltg_user_account set img=#{img} where id=#{id}
+	</update>
+	<insert id="insertAccount" parameterType="Account">
+		insert into
+		ltg_user_account(xgh,username,nickname,loginpassword,paypassword,zfye,is_Phone_Validate,mark,status,zhtype,sfcsh,cjsj)
+		values
+		(#{xgh},#{username},#{nickname},#{loginpassword},#{paypassword},0.00,0,#{mark},1,#{zhtype},1,#{cjsj})
+	</insert>
+	<insert id="phoneRegister" parameterType="Account">
+		insert into
+		ltg_user_account(xgh,username,nickname,loginpassword,zfye,is_Phone_Validate,mark,status,zhtype,sfcsh,cjsj)
+		values
+		(#{xgh},#{username},#{nickname},#{loginpassword},0.00,0,#{mark},0,#{zhtype},0,#{cjsj})
+	</insert>
+	<update id="deleteAccount" parameterType="int">
+		update ltg_user_account set sfsc=1 where id=#{id}
+	</update>
+	<update id="updateAccount" parameterType="Account">
+		update ltg_user_account set xgh=#{xgh},nickname=#{nickname},zfye=#{zfye},mark=#{mark},zhtype=#{zhtype},status=#{status} where id=#{id}
+	</update>
+	<select id="findAccount" resultType="Account" parameterType="Account">
+		select * from ltg_user_account where xgh=#{xgh};
+	</select>
+	<select id="getAll" resultType="Account">
+		select * from ltg_user_account;
+	</select>
+	<select id="getForPage" parameterType="PageModel" resultType="Account">
+		select * from ltg_user_account limit #{pageNo},#{pageSize};
+	</select>
+	<select id="getCount" resultType="int">
+		select count(*) from ltg_user_account;
+	</select>
+	<select id="getByXgh" parameterType="String" resultType="Account">
+		select * from ltg_user_account where xgh = #{xgh}
+	</select>
+	<select id="getById" parameterType="int"
+		resultType="com.piend.FastPay.bean.Account">
+		select * from ltg_user_account where id = #{id}
+	</select>
+	<select id="getByStatus" parameterType="String" resultType="Account">
+	    select a.* from ltg_user_account a where a.status = #{status}
+	</select>
+
+	<select id="getAccountByXghAndLoginPassword" parameterType="com.piend.FastPay.bean.Account" 
+		resultType="com.piend.FastPay.bean.Account">
+		select * from ltg_user_account where  xgh = #{xgh} and loginpassword = #{loginpassword}
+	</select>
+
+	<update id="start">
+		update ltg_user_account set sfphone= 1
+	</update>
+	<update id="close">
+		update ltg_user_account set sfphone= 0
+	</update>
+	
+	<select id="getbypho" parameterType="String" resultType="Account">
+		select * from ltg_user_account where username = #{pho}
+	</select>
+	
+	<update id="changepwd" parameterType="Account">
+		update ltg_user_account set loginpassword = #{loginpassword} where id = #{id}
+	</update>
+	<update id="changepaypwd" parameterType="Account">
+		update ltg_user_account set paypassword = #{paypassword} where id = #{id}
+	</update>
+
+	<select id="resetpwd" parameterType="Account" resultType="Account">
+		select * from ltg_user_account where username=#{username} and nickname=#{nickname}
+	</select>
+	
+	<update id="updateYe" parameterType="Account">
+		update ltg_user_account set zfye=#{zfye} where id=#{id}
+	</update>
+	<update id="updateUserInfoNickName" parameterType="com.piend.FastPay.bean.Account">
+		update ltg_user_account set nickname=#{nickname} where id=#{id}
+	</update>
+</mapper>

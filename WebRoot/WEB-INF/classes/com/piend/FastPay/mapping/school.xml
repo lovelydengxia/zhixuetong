@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+  <mapper namespace="com.piend.FastPay.dao.SchoolDao">
+  
+  	<update id="update" parameterType="School">
+   	update ltg_jcxx_school set czdh=#{czdh},dwfzrh=#{dwfzrh},dzxx=#{dzxx},fddbrh=#{fddbrh},frzsh=#{frzsh},
+   	jxny=#{jxny},lxdh=#{lxdh},xqr=#{xqr},xxdm=#{xxdm},xxdz=#{xxdz},xxjbzm=#{xxjbzm},xxname=#{xxname},
+  	 ywmc=#{ywmc}, yzbm=#{yzbm},zgbm_cd=#{zgbm_cd},xzgh=#{xzgh},xzxm= #{xzxm},zydz=#{zydz},zzjgm=#{zzjgm},
+  	 xzqhm=#{xzqhm},lsyg=#{lsyg},xxbxlxm=#{xxbxlxm} where id=#{id}
+	</update>
+  
+  	<select id="getById" resultType="School">
+  	select * from ltg_jcxx_school;
+  	</select>
+  	
+  	<select id="getAll" resultType="School">
+  	select * from ltg_jcxx_school;
+  	</select>
+  	<insert id="insert" parameterType="com.piend.FastPay.bean.School">
+  		insert into ltg_jcxx_school (
+  		czdh,dwfzrh,dzxx,fddbrh,frzsh,jxny,lxdh,xqr,
+  		xxdm,xxdz,xxjbzm,xxname,ywmc,yzbm,xzgh,xzxm,
+  		zydz,zzjgm,xzqhm,lsyg,xxbxlxm,zgbm_cd
+  		) values(
+  		#{czdh},#{dwfzrh},#{dzxx},#{fddbrh},#{frzsh},#{jxny},#{lxdh},
+  		#{xqr},#{xxdm},#{xxdz},#{xxjbzm},#{xxname},#{ywmc},#{yzbm},
+  		#{xzgh},#{xzxm},#{zydz},#{zzjgm},#{xzqhm},#{lsyg},#{xxbxlxm},
+  		#{zgbm_cd}
+  		);
+  	</insert>
+  	<select id="getByXxmc" parameterType="String" resultType="com.piend.FastPay.bean.School" >
+  		select * from ltg_jcxx_school where xxname = #{xxname}
+  	</select>
+  	
+  	<select id="getByXxdm" resultType="School">
+  	select * from ltg_jcxx_school 
+  	  <where>
+		<if test="xxdm!=null">
+			 xxdm = #{xxdm} 
+		</if>
+	</where> 
+  	</select>
+  </mapper>

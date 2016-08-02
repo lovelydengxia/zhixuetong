@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="com.piend.FastPay.dao.SignDetailDao">
+  <insert id="add" parameterType="SignDetail">
+  insert into ltg_notice_signdetail(articleID,signID,paymentStaffID,fare,paymentStatusID,paymentStatusCD,signTime,remark)
+  values(#{articleID},#{signID},#{paymentStaffID},#{fare},#{paymentStatusID},#{paymentStatusCD},#{signTime},#{remark});
+  </insert>
+  
+  <delete id="delete" parameterType="String">
+   delete from ltg_notice_signdetail where articleID=#{articleID};
+  </delete>
+  
+  <select id="update" parameterType="SignDetail" resultType="SignDetail">
+  update ltg_notice_signdetail set signID=#{signID},paymentStaffID=#{paymentStaffID},paymentStatusCD=#{paymentStatusCD}  
+  where id = #{id} ;
+  </select>
+  
+  <select id="getById" parameterType="String" resultType="SignDetail">
+  select * from ltg_notice_signdetail where articleID=#{articleID};
+  </select>
+  
+  <select id="getAll" parameterType="SignDetail" resultType="SignDetail">
+  select * from ltg_notice_signdetail;
+  </select>
+  
+  <select id="getBySignDetail" parameterType="SignDetail" resultType="SignDetail">
+  select * from ltg_notice_signdetail where articleID = #{articleID} and signID = #{signID};
+  </select>
+  </mapper>

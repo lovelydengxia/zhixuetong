@@ -1,0 +1,85 @@
+8
+
+dir
+4701
+https://222.19.48.112/svn/porject/SSPhone/WebRoot/WEB-INF/jsp
+https://222.19.48.112/svn/porject
+
+
+
+2016-06-29T10:19:32.544691Z
+4674
+luojin
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+02d1c2df-0d1f-ad4a-9af5-8b09cb5f3029
+
+Schedule
+dir
+
+about
+dir
+
+account
+dir
+
+activity
+dir
+
+alipay
+dir
+
+chat
+dir
+
+grade
+dir
+
+homework
+dir
+
+kaoqin
+dir
+
+leave
+dir
+
+notice
+dir
+
+parent
+dir
+
+register
+dir
+
+taglibs.jsp
+file
+
+
+
+
+2016-07-19T06:41:05.000000Z
+7d3eea6f31e75b9a5eaa9bb5894a6901
+2016-04-29T09:14:57.187819Z
+2655
+wzy
+
+teacher
+dir
+
+wallet
+dir
+
